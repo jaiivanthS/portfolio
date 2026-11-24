@@ -63,9 +63,11 @@
     .bg-graph-white {
       background-color: rgb(var(--card));
       background-image:
+        radial-gradient(circle 240px at var(--mx, -999px) var(--my, -999px), var(--glow), transparent 70%),
         linear-gradient(to right, rgb(var(--ink) / 0.08) 1px, transparent 1px),
         linear-gradient(to bottom, rgb(var(--ink) / 0.08) 1px, transparent 1px);
-      background-size: 24px 24px;
+      background-size: 100% 100%, 24px 24px, 24px 24px;
+      animation: gridDrift3 7s linear infinite;
     }
 
     /* Subtle grid pattern for Electric Purple CTA block */
@@ -75,13 +77,14 @@
         linear-gradient(to right, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
       background-size: 24px 24px;
+      animation: gridDrift2 7s linear infinite;
     }
 
     /* Neobrutalist Interactive Button */
     .neo-btn {
       border: 2.5px solid rgb(var(--ink));
       box-shadow: 4px 4px 0px rgb(var(--shadow));
-      transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease;
+      transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease, translate 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     .neo-btn:hover {
@@ -189,7 +192,7 @@
     ====================================================================== */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
     @keyframes popIn { 0% { opacity: 0; transform: scale(.88) rotate(-3deg); } 70% { transform: scale(1.03) rotate(1deg); } 100% { opacity: 1; transform: none; } }
-    @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes floatY { 0%,100% { translate: 0 0; } 50% { translate: 0 -8px; } }
     @keyframes spinSlow { to { transform: rotate(360deg); } }
     @keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(16deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } }
     @keyframes blink { 50% { opacity: 0; } }
@@ -214,6 +217,92 @@
     /* Scroll progress bar */
     #scrollProgress { position: fixed; top: 0; left: 0; height: 4px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #6D5DF6, #FF70A6, #D9F978); z-index: 60; pointer-events: none; }
 
+
+    /* ===================== EXTRA ANIMATIONS ===================== */
+    :root { --glow: rgb(217 249 120 / 0.45); }
+    html.dark { --glow: rgb(217 249 120 / 0.10); }
+    @keyframes gridDrift3 { from { background-position: 0 0, 0 0, 0 0; } to { background-position: 0 0, 24px 24px, 24px 24px; } }
+    @keyframes gridDrift2 { from { background-position: 0 0, 0 0; } to { background-position: 24px 24px, 24px 24px; } }
+
+    /* 1. Typewriter caret */
+    .type-caret { display: inline-block; width: .5em; height: .9em; margin-left: .08em; vertical-align: -0.05em; background: #6D5DF6; animation: blink .9s steps(1) infinite; }
+
+    /* 2. Rotating role word */
+    .rotator { display: inline-grid; overflow: hidden; vertical-align: middle; transition: width .35s cubic-bezier(.2,.8,.2,1); }
+    .rotator-word { display: inline-block; white-space: nowrap; transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s; }
+    .rotator-word.out { transform: translateY(-110%); opacity: 0; }
+    .rotator-word.pre { transform: translateY(110%); opacity: 0; transition: none; }
+
+    /* 4. Tilt */
+    .tilt-target { transition: transform .2s ease-out; transform-style: preserve-3d; will-change: transform; }
+
+    /* 5. Floating tech badges */
+    @keyframes badgeFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+    .tech-badge { position: absolute; z-index: 5; pointer-events: none; rotate: var(--rot, 0deg); animation: badgeFloat var(--dur, 6s) ease-in-out infinite; animation-delay: var(--delay, 0s); transition: transform .25s ease-out; }
+
+    /* 7. Particles canvas */
+    #heroParticles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    #top > div:first-child > :not(canvas) { position: relative; z-index: 1; }
+
+    /* 8. Custom cursor */
+    #cursorRing { position: fixed; left: 0; top: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; background: #D9F978; border: 2px solid #141414; z-index: 90; pointer-events: none; opacity: 0; transition: width .2s, height .2s, margin .2s, background-color .2s, opacity .2s, border-radius .2s; }
+    #cursorRing.on { opacity: .9; }
+    #cursorRing.big { width: 46px; height: 46px; margin: -23px 0 0 -23px; background: rgb(217 249 120 / .35); }
+    #cursorRing.down { width: 12px; height: 12px; margin: -6px 0 0 -6px; }
+
+    /* 9. Marquee */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee { overflow: hidden; }
+    .marquee-track { display: flex; width: max-content; animation: marquee var(--speed, 32s) linear infinite; }
+    .marquee-track.reverse { animation-direction: reverse; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee-group { display: flex; align-items: center; gap: 1.5rem; padding-right: 1.5rem; white-space: nowrap; }
+    .marquee-star { color: #6D5DF6; }
+    .bg-neoPurple .marquee-star { color: #D9F978; }
+
+    /* 11. Timeline draws itself */
+    .tl-ready { border-left-color: rgb(var(--ink) / 0.15) !important; }
+    .tl-ready::before { content: ''; position: absolute; left: -3px; top: 0; bottom: 0; width: 3px; background: rgb(var(--ink)); transform-origin: top; transform: scaleY(var(--p, 0)); }
+    @keyframes dotPop { 0% { transform: scale(0); } 70% { transform: scale(1.5); } 100% { transform: scale(1); } }
+    .tl-ready .tl-dot { transform: scale(0); }
+    .tl-ready .tl-dot.on { animation: dotPop .45s cubic-bezier(.2,.8,.2,1) both; background: #6D5DF6; }
+
+    /* 12. Skill chips fly in */
+    @keyframes flyIn { from { opacity: 0; transform: translate(var(--fx), var(--fy)) rotate(var(--fr)) scale(.6); } to { opacity: 1; transform: none; } }
+    .anim-ready .reveal-fly { opacity: 0; }
+    .anim-ready .reveal-fly.is-visible { animation: flyIn .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d, 0ms); }
+
+    /* 13. Project card flip */
+    .flip-scene { perspective: 1400px; }
+    .flip-inner { display: grid; transform-style: preserve-3d; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+    .flip-inner > .flip-face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    .flip-inner > .flip-back { transform: rotateY(180deg); }
+    .flip-inner.flipped { transform: rotateY(180deg); }
+
+    /* 14. Headings letter by letter */
+    .split-word { display: inline-block; white-space: nowrap; }
+    .split-char { display: inline-block; }
+    .anim-ready .split-heading .split-char { opacity: 0; transform: translateY(60%) rotate(8deg); }
+    .anim-ready .split-heading.is-visible .split-char { animation: charIn .5s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--ci) * 28ms); }
+    @keyframes charIn { from { opacity: 0; transform: translateY(60%) rotate(8deg); } to { opacity: 1; transform: none; } }
+
+    /* 10. Stats */
+    .stat-num { font-variant-numeric: tabular-nums; }
+
+    /* 16. Theme ripple (View Transitions) */
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+    /* 17. Confetti */
+    .confetti-bit { position: fixed; z-index: 95; pointer-events: none; border: 2px solid #141414; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bg-graph-white, .bg-graph-purple, .tech-badge, .marquee-track, .type-caret { animation: none !important; }
+      .flip-inner { transition: none; }
+      .anim-ready .reveal-fly, .anim-ready .split-heading .split-char { opacity: 1 !important; transform: none !important; animation: none !important; }
+      .tl-ready::before { transform: none; }
+      .tl-ready .tl-dot { transform: none; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .anim-ready .reveal, .anim-ready .reveal-pop { opacity: 1 !important; transform: none !important; animation: none !important; }
       .anim-float, .anim-spin, .anim-wave, .caret::after { animation: none !important; }
@@ -224,6 +313,7 @@
 </head>
 <body class="min-h-screen selection:bg-neoLime selection:text-neoBlack">
   <div id="scrollProgress" aria-hidden="true"></div>
+  <div id="cursorRing" aria-hidden="true"></div>
 
   <!-- =====================================================================
        MAIN NEOBRUTALIST PORTFOLIO FRAME
@@ -260,7 +350,7 @@
         <button
           id="themeToggle"
           type="button"
-          onclick="toggleTheme()"
+          onclick="toggleTheme(event)"
           aria-label="Switch to dark theme"
           title="Toggle dark / light theme"
           class="theme-toggle bg-white hover:bg-neoLime text-neoBlack border-l-[3px] border-neoBlack px-3 sm:px-4 flex items-center justify-center cursor-pointer transition-colors"
@@ -309,7 +399,8 @@
     ==================================================================== -->
     <section id="top" class="grid grid-cols-1 lg:grid-cols-12 border-b-[3px] border-neoBlack">
       <!-- Hero Left Panel: Graph-Paper White Grid -->
-      <div class="lg:col-span-6 bg-graph-white p-6 sm:p-10 lg:p-12 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-neoBlack flex flex-col justify-between">
+      <div class="lg:col-span-6 bg-graph-white p-6 sm:p-10 lg:p-12 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-neoBlack flex flex-col justify-between relative overflow-hidden">
+        <canvas id="heroParticles" aria-hidden="true"></canvas>
         <div>
           <!-- Purple Pill Badge -->
           <div class="inline-flex items-center gap-2 bg-neoPurple text-white border-2 border-neoBlack shadow-neo-sm px-3 py-1.5 font-mono text-[11px] sm:text-xs font-bold tracking-wide mb-5">
@@ -318,10 +409,16 @@
           </div>
 
           <!-- Bold Uppercase Headline -->
-          <h1 class="font-sans font-extrabold text-3xl sm:text-5xl lg:text-[46px] leading-[1.05] tracking-tight text-neoBlack uppercase mb-5">
+          <h1 id="heroHeadline" class="font-sans font-extrabold text-3xl sm:text-5xl lg:text-[46px] leading-[1.05] tracking-tight text-neoBlack uppercase mb-4">
             AI/ML ENGINEER &amp;<br />
             SOFTWARE DEVELOPER
           </h1>
+
+          <!-- Rotating Role Line -->
+          <p class="font-mono text-sm sm:text-base font-bold text-neoBlack mb-5 flex items-center gap-2 flex-wrap">
+            <span>&gt; I build</span>
+            <span id="roleRotator" class="rotator bg-neoLime text-neoBlack border-2 border-neoBlack shadow-neo-sm px-2 py-0.5"><span class="rotator-word">ML models</span></span>
+          </p>
 
           <!-- Bio Copy -->
           <p class="font-mono text-xs sm:text-[13.5px] leading-relaxed text-neutral-800 mb-7 max-w-xl">
@@ -399,8 +496,14 @@
       </div>
 
       <!-- Hero Right Panel: Vibrant Pink (#FF70A6) with Framed Portrait & Overlapping Code Card -->
-      <div class="lg:col-span-6 bg-neoPink p-6 sm:p-10 lg:p-12 flex items-center justify-center relative overflow-hidden">
-        <div class="relative w-full max-w-[380px] py-4">
+      <div id="heroRight" class="lg:col-span-6 bg-neoPink p-6 sm:p-10 lg:p-12 flex items-center justify-center relative overflow-hidden">
+        <span class="tech-badge bg-white border-2 border-neoBlack shadow-neo-sm font-mono text-[10px] sm:text-xs font-bold px-2 py-1" data-depth="1.4" style="top:7%;left:5%;--rot:-8deg;--dur:6s">Python</span>
+        <span class="tech-badge bg-neoLime border-2 border-neoBlack shadow-neo-sm font-mono text-[10px] sm:text-xs font-bold px-2 py-1" data-depth="-1" style="top:10%;right:6%;--rot:7deg;--dur:7s;--delay:-2s">PyTorch</span>
+        <span class="tech-badge hidden sm:block bg-neoPurple text-white border-2 border-neoBlack shadow-neo-sm font-mono text-xs font-bold px-2 py-1" data-depth="1.8" style="top:46%;left:4%;--rot:-4deg;--dur:5.5s;--delay:-1s">LLMs</span>
+        <span class="tech-badge bg-white border-2 border-neoBlack shadow-neo-sm font-mono text-[10px] sm:text-xs font-bold px-2 py-1" data-depth="-1.6" style="bottom:8%;left:7%;--rot:5deg;--dur:6.5s;--delay:-3s">RAG</span>
+        <span class="tech-badge hidden sm:block bg-neoLime border-2 border-neoBlack shadow-neo-sm font-mono text-xs font-bold px-2 py-1" data-depth="1.2" style="bottom:6%;right:5%;--rot:-6deg;--dur:7.5s;--delay:-4s">TensorFlow</span>
+        <span class="tech-badge hidden lg:block bg-white border-2 border-neoBlack shadow-neo-sm font-mono text-xs font-bold px-2 py-1" data-depth="-2" style="top:40%;right:3%;--rot:9deg;--dur:6s;--delay:-2.5s">Agentic AI</span>
+        <div class="relative w-full max-w-[380px] py-4 tilt-target">
           <!-- Offset Lime Backplate matching reference image -->
           <div class="w-[78%] sm:w-[275px] h-[250px] sm:h-[290px] mx-auto bg-neoLime border-[3px] border-neoBlack translate-x-3 -translate-y-3"></div>
 
@@ -416,7 +519,7 @@
           </div>
 
           <!-- Overlapping Floating Purple Code Snippet Card matching reference -->
-          <div class="w-[88%] sm:w-[310px] ml-auto -mt-12 sm:-mt-14 relative z-10 bg-neoPurple text-white border-[3px] border-neoBlack shadow-[6px_6px_0px_rgb(var(--shadow))] p-3.5 sm:p-4 font-mono text-[11px] sm:text-xs leading-relaxed">
+          <div id="codeCard" class="w-[88%] sm:w-[310px] ml-auto -mt-12 sm:-mt-14 relative z-10 bg-neoPurple text-white border-[3px] border-neoBlack shadow-[6px_6px_0px_rgb(var(--shadow))] p-3.5 sm:p-4 font-mono text-[11px] sm:text-xs leading-relaxed">
             <div class="text-neoLime font-bold">&gt; class Jaivanth:</div>
             <div class="pl-3">
               <span class="text-white/80">role</span> = <span class="text-neoLime">'AI/ML Engineer'</span>
@@ -431,6 +534,14 @@
         </div>
       </div>
     </section>
+
+    <!-- Scrolling Marquee Strip -->
+    <div class="marquee bg-neoLime text-neoBlack border-b-[3px] border-neoBlack" aria-hidden="true">
+      <div class="marquee-track  font-sans font-extrabold uppercase text-lg sm:text-2xl tracking-tight py-3">
+        <div class="marquee-group"><span>AI / ML</span><span class="marquee-star">✦</span><span>RAG SYSTEMS</span><span class="marquee-star">✦</span><span>LARGE LANGUAGE MODELS</span><span class="marquee-star">✦</span><span>AGENTIC AI</span><span class="marquee-star">✦</span><span>DEEP LEARNING</span><span class="marquee-star">✦</span><span>COMPUTER VISION</span><span class="marquee-star">✦</span><span>GENERATIVE AI</span><span class="marquee-star">✦</span></div>
+        <div class="marquee-group"><span>AI / ML</span><span class="marquee-star">✦</span><span>RAG SYSTEMS</span><span class="marquee-star">✦</span><span>LARGE LANGUAGE MODELS</span><span class="marquee-star">✦</span><span>AGENTIC AI</span><span class="marquee-star">✦</span><span>DEEP LEARNING</span><span class="marquee-star">✦</span><span>COMPUTER VISION</span><span class="marquee-star">✦</span><span>GENERATIVE AI</span><span class="marquee-star">✦</span></div>
+      </div>
+    </div>
 
     <!-- ===================================================================
          3. HORIZONTAL SKILLS BAR (ALL 18 SKILLS EXTENDED & VISIBLE)
@@ -633,6 +744,26 @@
     <!-- ===================================================================
          4. MIDDLE SPLIT SECTION: FEATURED PROJECTS (Left ~68%) + EDUCATION & ACHIEVEMENTS (Right ~32%)
     ==================================================================== -->
+    <!-- Animated Stats Band -->
+    <section id="stats" class="grid grid-cols-2 lg:grid-cols-4 border-b-[3px] border-neoBlack">
+      <div class="bg-white border-r-[3px] border-b-[3px] lg:border-b-0 border-neoBlack p-5 sm:p-7">
+        <div class="font-sans font-extrabold text-4xl sm:text-5xl tracking-tight stat-num"><span data-count="99">99</span>%</div>
+        <div class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-1.5 text-neutral-700">RAG chatbot response accuracy</div>
+      </div>
+      <div class="bg-neoLime border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-neoBlack p-5 sm:p-7">
+        <div class="font-sans font-extrabold text-4xl sm:text-5xl tracking-tight stat-num"><span data-count="95">95</span>%</div>
+        <div class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-1.5">Fewer hallucinations</div>
+      </div>
+      <div class="bg-white border-r-[3px] border-neoBlack p-5 sm:p-7">
+        <div class="font-sans font-extrabold text-4xl sm:text-5xl tracking-tight stat-num"><span data-count="26">26</span>+</div>
+        <div class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-1.5 text-neutral-700">Skills &amp; tools</div>
+      </div>
+      <div class="bg-neoPink p-5 sm:p-7">
+        <div class="font-sans font-extrabold text-4xl sm:text-5xl tracking-tight stat-num"><span data-count="8.21" data-decimals="2">8.21</span></div>
+        <div class="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-1.5">CGPA at SRM IST</div>
+      </div>
+    </section>
+
     <section class="grid grid-cols-1 lg:grid-cols-12 border-b-[3px] border-neoBlack">
       <!-- LEFT COLUMN (~68% -> 8 cols): FEATURED PROJECTS CAROUSEL -->
       <div id="projects" class="lg:col-span-8 bg-neoCream p-6 sm:p-8 lg:p-10 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-neoBlack flex flex-col justify-between">
@@ -672,7 +803,9 @@
           </div>
 
           <!-- Active Project Card Container -->
-          <article id="activeProjectCard" class="bg-white border-[3px] border-neoBlack shadow-[6px_6px_0px_rgb(var(--shadow))] overflow-hidden">
+          <div class="flip-scene" id="projectScene">
+          <div id="projectFlip" class="flip-inner">
+          <article id="activeProjectCard" class="flip-face bg-white border-[3px] border-neoBlack shadow-[6px_6px_0px_rgb(var(--shadow))] overflow-hidden">
             <!-- Graphic Banner with Pink Frame matching reference image -->
             <div id="projectBanner" class="bg-neoPink border-b-[3px] border-neoBlack p-4 sm:p-5">
               <div id="projectArtwork" class="bg-neoCream border-[3px] border-neoBlack h-44 sm:h-56 overflow-hidden flex items-center justify-center">
@@ -704,16 +837,36 @@
                 <span class="border-2 border-neoBlack bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold">NLP</span>
               </div>
 
-              <!-- View Details Button -->
+              <!-- View Details Button (flips the card) -->
               <button
-                onclick="openProjectDetailModal()"
+                onclick="flipProject(true)"
                 class="neo-btn bg-white hover:bg-neoLime px-4 py-2 font-mono text-xs font-bold uppercase inline-flex items-center gap-2 cursor-pointer"
               >
                 <span>VIEW DETAILS</span>
-                <span>→</span>
+                <span>↻</span>
               </button>
             </div>
           </article>
+          <!-- Back face: architecture highlights -->
+          <article id="projectBack" inert class="flip-face flip-back bg-neoPurple text-white border-[3px] border-neoBlack shadow-[6px_6px_0px_rgb(var(--shadow))] p-5 sm:p-7 flex flex-col">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="font-mono text-[11px] font-bold uppercase tracking-wider text-neoLime">System highlights &amp; architecture</span>
+              <span id="projectBackBadge" class="bg-neoLime text-neoBlack border-2 border-neoBlack px-2 py-0.5 font-mono text-[10px] font-bold shrink-0">01 / 03</span>
+            </div>
+            <h3 id="projectBackTitle" class="font-sans font-extrabold text-lg sm:text-xl uppercase tracking-tight mb-4"></h3>
+            <ul id="projectBackList" class="space-y-3 font-mono text-xs sm:text-[13px] leading-relaxed flex-1"></ul>
+            <div id="projectBackTags" class="flex flex-wrap gap-2 mt-5"></div>
+            <div class="flex flex-wrap gap-3 mt-5">
+              <button onclick="flipProject(false)" class="neo-btn bg-white text-neoBlack px-4 py-2 font-mono text-xs font-bold uppercase inline-flex items-center gap-2 cursor-pointer">
+                <span>↺</span><span>FLIP BACK</span>
+              </button>
+              <button onclick="openProjectDetailModal()" class="neo-btn bg-neoLime text-neoBlack px-4 py-2 font-mono text-xs font-bold uppercase inline-flex items-center gap-2 cursor-pointer">
+                <span>FULL DETAILS</span><span>↗</span>
+              </button>
+            </div>
+          </article>
+          </div>
+          </div>
         </div>
 
         <!-- Pagination Dots below Project Card -->
@@ -802,7 +955,15 @@
     <!-- ===================================================================
          5. BOTTOM SPLIT SECTION: WORK EXPERIENCE (Left ~68%) + LET'S BUILD CTA (Right ~32%)
     ==================================================================== -->
-    <section class="grid grid-cols-1 lg:grid-cols-12 border-b-[3px] border-neoBlack">
+    <!-- Scrolling Marquee Strip -->
+    <div class="marquee bg-neoPurple text-white border-b-[3px] border-neoBlack" aria-hidden="true">
+      <div class="marquee-track reverse font-sans font-extrabold uppercase text-lg sm:text-2xl tracking-tight py-3">
+        <div class="marquee-group"><span>BUILD. INNOVATE. DEPLOY.</span><span class="marquee-star">✦</span><span>PYTHON</span><span class="marquee-star">✦</span><span>PYTORCH</span><span class="marquee-star">✦</span><span>TENSORFLOW</span><span class="marquee-star">✦</span><span>FASTAPI</span><span class="marquee-star">✦</span><span>DOCKER</span><span class="marquee-star">✦</span><span>AWS</span><span class="marquee-star">✦</span><span>MONGODB</span><span class="marquee-star">✦</span></div>
+        <div class="marquee-group"><span>BUILD. INNOVATE. DEPLOY.</span><span class="marquee-star">✦</span><span>PYTHON</span><span class="marquee-star">✦</span><span>PYTORCH</span><span class="marquee-star">✦</span><span>TENSORFLOW</span><span class="marquee-star">✦</span><span>FASTAPI</span><span class="marquee-star">✦</span><span>DOCKER</span><span class="marquee-star">✦</span><span>AWS</span><span class="marquee-star">✦</span><span>MONGODB</span><span class="marquee-star">✦</span></div>
+      </div>
+    </div>
+
+<section class="grid grid-cols-1 lg:grid-cols-12 border-b-[3px] border-neoBlack">
       <!-- LEFT COLUMN (~68% -> 8 cols): PINK SIDEBAR STRIP + VERTICAL TIMELINE -->
       <div id="experience" class="lg:col-span-8 grid grid-cols-1 md:grid-cols-12 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-neoBlack bg-white">
         <!-- Pink Left Vertical Block: EXPERIENCE -> -->
@@ -1232,6 +1393,17 @@
       document.getElementById('projectTitle').textContent = p.title;
       document.getElementById('projectDesc').textContent = p.description;
       document.getElementById('projectArtwork').innerHTML = p.artwork;
+      const backTitle = document.getElementById('projectBackTitle');
+      if (backTitle) {
+        backTitle.textContent = p.title;
+        document.getElementById('projectBackBadge').textContent = p.num;
+        document.getElementById('projectBackList').innerHTML = (p.architecture || [])
+          .map((item) => `<li class="flex gap-2"><span class="text-neoLime font-bold">&#9656;</span><span>${item}</span></li>`)
+          .join('');
+        document.getElementById('projectBackTags').innerHTML = p.tags
+          .map((t) => `<span class="border-2 border-neoBlack bg-neoLime text-neoBlack px-2.5 py-0.5 font-mono text-[11px] font-bold">${t}</span>`)
+          .join('');
+      }
 
       const tagsEl = document.getElementById('projectTags');
       tagsEl.innerHTML = p.tags
@@ -1248,14 +1420,32 @@
       });
     }
 
+    // 13. Flip the project card and swap projects with a 3D turn
+    function flipProject(show) {
+      const inner = document.getElementById('projectFlip');
+      inner.classList.toggle('flipped', show);
+      document.getElementById('projectBack').inert = !show;
+      document.getElementById('activeProjectCard').inert = show;
+    }
+
+    function swapProject(idx) {
+      const scene = document.getElementById('projectScene');
+      const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      flipProject(false);
+      if (reduce || !scene.animate) { currentProjectIdx = idx; renderProject(idx); return; }
+      scene.animate([{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(90deg)' }], { duration: 200, easing: 'ease-in' }).finished.then(() => {
+        currentProjectIdx = idx;
+        renderProject(idx);
+        scene.animate([{ transform: 'rotateY(-90deg)' }, { transform: 'rotateY(0deg)' }], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' });
+      });
+    }
+
     function changeProject(delta) {
-      currentProjectIdx = (currentProjectIdx + delta + projectsData.length) % projectsData.length;
-      renderProject(currentProjectIdx);
+      swapProject((currentProjectIdx + delta + projectsData.length) % projectsData.length);
     }
 
     function setProjectIndex(idx) {
-      currentProjectIdx = idx;
-      renderProject(currentProjectIdx);
+      if (idx !== currentProjectIdx) swapProject(idx);
     }
 
     // Initialize first project artwork on load
@@ -1378,15 +1568,371 @@
       const btn = document.getElementById('themeToggle');
       if (btn) btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
     }
-    function toggleTheme() {
+    function toggleTheme(e) {
       const root = document.documentElement;
+      const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const flip = () => {
+        const dark = root.classList.toggle('dark');
+        try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (err) {}
+        applyThemeLabel();
+        document.dispatchEvent(new Event('themechange'));
+      };
+      // 16. Circular ripple from the toggle button where View Transitions are supported
+      if (document.startViewTransition && !reduce) {
+        const btn = document.getElementById('themeToggle').getBoundingClientRect();
+        const x = e && e.clientX ? e.clientX : btn.left + btn.width / 2;
+        const y = e && e.clientY ? e.clientY : btn.top + btn.height / 2;
+        const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        const t = document.startViewTransition(flip);
+        t.ready.then(() => {
+          root.animate(
+            { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
+            { duration: 650, easing: 'cubic-bezier(.2,.7,.2,1)', pseudoElement: '::view-transition-new(root)' }
+          );
+        });
+        return;
+      }
       root.classList.add('theme-switching');
-      const dark = root.classList.toggle('dark');
-      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
-      applyThemeLabel();
+      flip();
       setTimeout(() => root.classList.remove('theme-switching'), 400);
     }
     applyThemeLabel();
+
+
+    // ===================== EXTRA ANIMATIONS =====================
+    (function extraAnimations() {
+      const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const finePointer = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      // 14. Split section headings into letters (runs before the reveal observer is set up)
+      document.querySelectorAll('#portfolioRoot h2, #skills > div > div:first-child > span:first-child').forEach((h) => {
+        h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
+        let ci = 0;
+        const walk = (node) => {
+          [...node.childNodes].forEach((n) => {
+            if (n.nodeType === 3) {
+              const frag = document.createDocumentFragment();
+              n.textContent.split(/(\s+)/).forEach((part) => {
+                if (!part) return;
+                if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+                const w = document.createElement('span');
+                w.className = 'split-word';
+                w.setAttribute('aria-hidden', 'true');
+                [...part].forEach((ch) => {
+                  const c = document.createElement('span');
+                  c.className = 'split-char';
+                  c.style.setProperty('--ci', ci++);
+                  c.textContent = ch;
+                  w.appendChild(c);
+                });
+                frag.appendChild(w);
+              });
+              n.replaceWith(frag);
+            } else if (n.nodeType === 1 && n.tagName !== 'BR') {
+              walk(n);
+            }
+          });
+        };
+        walk(h);
+        h.classList.add('split-heading');
+      });
+
+      // 2. Rotating role word
+      const rot = document.getElementById('roleRotator');
+      if (rot) {
+        const words = ['ML models', 'RAG systems', 'AI agents', 'LLM apps', 'CV pipelines', 'scalable software'];
+        const word = rot.firstElementChild;
+        let wi = 0;
+        const fit = () => { rot.style.width = word.offsetWidth + 20 + 'px'; };
+        fit();
+        if (!reduce) {
+          setInterval(async () => {
+            word.classList.add('out');
+            await sleep(350);
+            wi = (wi + 1) % words.length;
+            word.textContent = words[wi];
+            word.classList.remove('out');
+            word.classList.add('pre');
+            fit();
+            void word.offsetWidth;
+            word.classList.remove('pre');
+          }, 2400);
+        }
+      }
+
+      // 1 + 3. Typewriter headline, then the code card types itself
+      const h1 = document.getElementById('heroHeadline');
+      const card = document.getElementById('codeCard');
+      const lines = card ? [...card.children] : [];
+      const typeCard = async () => {
+        if (!card) return;
+        const texts = [];
+        lines.forEach((line) => {
+          const walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT);
+          const nodes = [];
+          while (walker.nextNode()) nodes.push(walker.currentNode);
+          nodes.forEach((n) => { texts.push([line, n, n.textContent]); n.textContent = ''; });
+        });
+        for (const [line, node, text] of texts) {
+          lines.forEach((l) => l.classList.toggle('caret', l === line));
+          for (let i = 1; i <= text.length; i++) {
+            node.textContent = text.slice(0, i);
+            if (text[i - 1] !== ' ') await sleep(26);
+          }
+        }
+        lines.forEach((l, i) => l.classList.toggle('caret', i === lines.length - 1));
+      };
+      if (reduce) {
+        if (lines.length) lines[lines.length - 1].classList.add('caret');
+      } else {
+        if (card) card.style.minHeight = card.offsetHeight + 'px';
+        if (h1) {
+          const full = h1.textContent.replace(/\s+/g, ' ').trim();
+          h1.setAttribute('aria-label', full);
+          h1.style.minHeight = h1.offsetHeight + 'px';
+          const parts = ['AI/ML ENGINEER &', 'SOFTWARE DEVELOPER'];
+          h1.innerHTML = '';
+          const spans = parts.map((_, i) => {
+            const sp = document.createElement('span');
+            sp.setAttribute('aria-hidden', 'true');
+            h1.appendChild(sp);
+            if (i < parts.length - 1) h1.appendChild(document.createElement('br'));
+            return sp;
+          });
+          const caret = document.createElement('span');
+          caret.className = 'type-caret';
+          caret.setAttribute('aria-hidden', 'true');
+          // empty the code card right away so it can type later
+          const cardPromise = (async () => {
+            const stash = [];
+            lines.forEach((line) => {
+              const walker = document.createTreeWalker(line, NodeFilter.SHOW_TEXT);
+              while (walker.nextNode()) stash.push(walker.currentNode);
+            });
+            const saved = stash.map((n) => n.textContent);
+            stash.forEach((n) => { n.textContent = ''; });
+            return () => stash.forEach((n, i) => { n.textContent = saved[i]; });
+          })();
+          (async () => {
+            const restoreCard = await cardPromise;
+            await sleep(450);
+            for (let i = 0; i < parts.length; i++) {
+              spans[i].after(caret);
+              for (let c = 1; c <= parts[i].length; c++) {
+                spans[i].textContent = parts[i].slice(0, c);
+                await sleep(parts[i][c - 1] === ' ' ? 30 : 55 + Math.random() * 40);
+              }
+              await sleep(160);
+            }
+            setTimeout(() => caret.remove(), 2200);
+            restoreCard();
+            await typeCard();
+          })();
+        } else {
+          typeCard();
+        }
+      }
+
+      // 7. Neural-network particles behind the hero text
+      const canvas = document.getElementById('heroParticles');
+      if (canvas && canvas.getContext) {
+        const ctx = canvas.getContext('2d');
+        const panel = canvas.parentElement;
+        let W = 0, H = 0, dpr = 1, pts = [], ink = '20,20,20', running = false;
+        const mouse = { x: -9999, y: -9999 };
+        const readInk = () => { ink = getComputedStyle(panel).getPropertyValue('--ink').trim().split(/\s+/).join(','); };
+        const resize = () => {
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = panel.clientWidth; H = panel.clientHeight;
+          canvas.width = W * dpr; canvas.height = H * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          const n = Math.max(18, Math.min(70, Math.round((W * H) / 11000)));
+          pts = Array.from({ length: n }, () => ({
+            x: Math.random() * W, y: Math.random() * H,
+            vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+            r: 1.6 + Math.random() * 1.8, accent: Math.random() < 0.18,
+          }));
+          if (reduce) draw();
+        };
+        const draw = () => {
+          ctx.clearRect(0, 0, W, H);
+          const LINK = 120;
+          for (let i = 0; i < pts.length; i++) {
+            const a = pts[i];
+            if (!reduce) {
+              const mdx = a.x - mouse.x, mdy = a.y - mouse.y, md = Math.hypot(mdx, mdy);
+              if (md < 110 && md > 0.1) { a.x += (mdx / md) * 1.2; a.y += (mdy / md) * 1.2; }
+              a.x += a.vx; a.y += a.vy;
+              if (a.x < 0 || a.x > W) a.vx *= -1;
+              if (a.y < 0 || a.y > H) a.vy *= -1;
+            }
+            for (let j = i + 1; j < pts.length; j++) {
+              const b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+              if (d < LINK) {
+                ctx.strokeStyle = `rgba(${ink},${(1 - d / LINK) * 0.22})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+              }
+            }
+            const dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+            if (dm < 170) {
+              ctx.strokeStyle = `rgba(109,93,246,${(1 - dm / 170) * 0.55})`;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+            }
+            ctx.fillStyle = a.accent ? 'rgba(109,93,246,0.75)' : `rgba(${ink},0.35)`;
+            ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+          }
+        };
+        const loop = () => { if (!running) return; draw(); requestAnimationFrame(loop); };
+        readInk(); resize();
+        addEventListener('resize', resize);
+        document.addEventListener('themechange', () => { readInk(); if (reduce) draw(); });
+        panel.addEventListener('mousemove', (e) => {
+          const r = panel.getBoundingClientRect();
+          mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+          // 6. spotlight follows the mouse over the grid
+          panel.style.setProperty('--mx', mouse.x + 'px');
+          panel.style.setProperty('--my', mouse.y + 'px');
+        });
+        panel.addEventListener('mouseleave', () => {
+          mouse.x = mouse.y = -9999;
+          panel.style.setProperty('--mx', '-999px');
+          panel.style.setProperty('--my', '-999px');
+        });
+        if (!reduce && 'IntersectionObserver' in window) {
+          new IntersectionObserver(([en]) => {
+            const vis = en.isIntersecting && !document.hidden;
+            if (vis && !running) { running = true; loop(); } else if (!vis) running = false;
+          }).observe(panel);
+          document.addEventListener('visibilitychange', () => {
+            if (document.hidden) running = false;
+            else if (!running && panel.getBoundingClientRect().bottom > 0) { running = true; loop(); }
+          });
+        }
+      }
+
+      // 4 + 5. Photo tilts with the mouse; badges drift with parallax
+      const heroRight = document.getElementById('heroRight');
+      if (heroRight && finePointer && !reduce) {
+        const tilt = heroRight.querySelector('.tilt-target');
+        const badges = heroRight.querySelectorAll('.tech-badge');
+        heroRight.addEventListener('mousemove', (e) => {
+          const r = heroRight.getBoundingClientRect();
+          const nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5;
+          tilt.style.transform = `perspective(900px) rotateY(${nx * 16}deg) rotateX(${-ny * 16}deg)`;
+          badges.forEach((b) => {
+            const d = parseFloat(b.dataset.depth) || 1;
+            b.style.transform = `translate(${nx * d * 22}px, ${ny * d * 22}px)`;
+          });
+        });
+        heroRight.addEventListener('mouseleave', () => {
+          tilt.style.transform = '';
+          badges.forEach((b) => { b.style.transform = ''; });
+        });
+      }
+
+      // 8. Custom cursor
+      const ring = document.getElementById('cursorRing');
+      if (ring && finePointer && !reduce) {
+        let tx = -100, ty = -100, cx = -100, cy = -100;
+        addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; ring.classList.add('on'); }, { passive: true });
+        document.addEventListener('mouseleave', () => ring.classList.remove('on'));
+        addEventListener('mousedown', () => ring.classList.add('down'));
+        addEventListener('mouseup', () => ring.classList.remove('down'));
+        document.addEventListener('mouseover', (e) => {
+          ring.classList.toggle('big', !!e.target.closest('a, button, label, [onclick]'));
+        });
+        const follow = () => {
+          cx += (tx - cx) * 0.22; cy += (ty - cy) * 0.22;
+          ring.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+          requestAnimationFrame(follow);
+        };
+        follow();
+      }
+
+      // 15. Magnetic buttons
+      if (finePointer && !reduce) {
+        document.querySelectorAll('.neo-btn').forEach((btn) => {
+          btn.addEventListener('mousemove', (e) => {
+            const r = btn.getBoundingClientRect();
+            const dx = (e.clientX - r.left) / r.width - 0.5, dy = (e.clientY - r.top) / r.height - 0.5;
+            btn.style.translate = `${dx * 12}px ${dy * 10}px`;
+          });
+          btn.addEventListener('mouseleave', () => { btn.style.translate = ''; });
+        });
+      }
+
+      // 17. Confetti on Contact / Download Resume
+      const COLORS = ['#D9F978', '#FF70A6', '#6D5DF6', '#FFFFFF'];
+      const burst = (x, y) => {
+        if (reduce) return;
+        for (let i = 0; i < 26; i++) {
+          const bit = document.createElement('span');
+          bit.className = 'confetti-bit';
+          const size = 7 + Math.random() * 8, shape = i % 3;
+          bit.style.width = size + 'px';
+          bit.style.height = (shape === 2 ? size * 0.45 : size) + 'px';
+          bit.style.left = x + 'px'; bit.style.top = y + 'px';
+          bit.style.background = COLORS[i % COLORS.length];
+          if (shape === 1) bit.style.borderRadius = '50%';
+          document.body.appendChild(bit);
+          const a = Math.random() * Math.PI * 2, v = 80 + Math.random() * 170;
+          const dx = Math.cos(a) * v, dy = Math.sin(a) * v - 90;
+          bit.animate([
+            { transform: 'translate(-50%, -50%) rotate(0deg)', opacity: 1 },
+            { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${Math.random() * 540 - 270}deg)`, opacity: 1, offset: 0.6 },
+            { transform: `translate(calc(-50% + ${dx * 1.15}px), calc(-50% + ${dy + 160}px)) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 },
+          ], { duration: 1100 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.3,1)' }).finished.then(() => bit.remove());
+        }
+      };
+      document.querySelectorAll('[onclick*="openContactModal"], a[download]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          const r = el.getBoundingClientRect();
+          burst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2);
+        });
+      });
+
+      // 10. Count-up numbers
+      const counters = document.querySelectorAll('[data-count]');
+      const runCount = (el) => {
+        const target = parseFloat(el.dataset.count), dec = parseInt(el.dataset.decimals || '0', 10);
+        const t0 = performance.now(), dur = 1600;
+        const step = (now) => {
+          const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+          el.textContent = (target * e).toFixed(dec);
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+      if (!reduce && 'IntersectionObserver' in window) {
+        counters.forEach((el) => { el.textContent = (0).toFixed(parseInt(el.dataset.decimals || '0', 10)); });
+        const cio = new IntersectionObserver((entries) => {
+          entries.forEach((en) => { if (en.isIntersecting) { runCount(en.target); cio.unobserve(en.target); } });
+        }, { threshold: 0.6 });
+        counters.forEach((el) => cio.observe(el));
+      }
+
+      // 11. Experience timeline draws itself while scrolling
+      const tl = document.querySelector('#experience .relative.pl-6');
+      if (tl && !reduce) {
+        const dots = [...tl.querySelectorAll(':scope > div > span.rounded-full')];
+        dots.forEach((d) => d.classList.add('tl-dot'));
+        tl.classList.add('tl-ready');
+        const update = () => {
+          const r = tl.getBoundingClientRect();
+          const prog = Math.max(0, Math.min(1, (innerHeight * 0.7 - r.top) / r.height));
+          tl.style.setProperty('--p', prog.toFixed(4));
+          dots.forEach((d) => {
+            const at = (d.getBoundingClientRect().top - r.top) / r.height;
+            d.classList.toggle('on', prog >= at);
+          });
+        };
+        addEventListener('scroll', update, { passive: true });
+        addEventListener('resize', update);
+        update();
+      }
+    })();
 
     // ===================== ANIMATIONS =====================
     (function initAnimations() {
@@ -1410,8 +1956,6 @@
       const portrait = document.getElementById('heroPortraitImg');
       const portraitWrap = portrait && portrait.closest('.relative.w-full');
       if (portraitWrap) portraitWrap.classList.add('anim-float');
-      const codeCard = [...document.querySelectorAll('#top .bg-neoPurple')].pop();
-      if (codeCard && codeCard.lastElementChild) codeCard.lastElementChild.classList.add('caret');
 
       if (reduce || !('IntersectionObserver' in window)) return;
 
@@ -1419,10 +1963,11 @@
       const groups = [
         ['#top > div:first-child > div > *', 110, 'reveal'],
         ['#top > div:last-child > div', 0, 'reveal-pop'],
-        ['#skills h2, #skills .grid.gap-3 > div', 60, 'reveal'],
-        ['#skills .grid.gap-2 > div', 25, 'reveal'],
+        ['#skills .grid.gap-3 > div', 60, 'reveal'],
+        ['#stats > div', 90, 'reveal'],
+        ['#skills .grid.gap-2 > div', 25, 'reveal-fly'],
         ['#projects > *', 120, 'reveal'],
-        ['#education h2, #education .space-y-4 > div', 110, 'reveal'],
+        ['#education .space-y-4 > div', 110, 'reveal'],
         ['#experience > div', 120, 'reveal'],
         ['#portfolioRoot > section:last-of-type > div:last-child > *', 120, 'reveal'],
         ['#portfolioRoot footer > *', 80, 'reveal'],
@@ -1435,6 +1980,12 @@
           seen.add(el);
           el.classList.add(cls);
           el.style.setProperty('--d', Math.min(i++ * step, 700) + 'ms');
+          if (cls === 'reveal-fly') {
+            const a = Math.random() * Math.PI * 2, dist = 120 + Math.random() * 160;
+            el.style.setProperty('--fx', Math.round(Math.cos(a) * dist) + 'px');
+            el.style.setProperty('--fy', Math.round(Math.sin(a) * dist) + 'px');
+            el.style.setProperty('--fr', Math.round(Math.random() * 60 - 30) + 'deg');
+          }
         });
       });
       const io = new IntersectionObserver((entries) => {
@@ -1442,8 +1993,17 @@
           if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
         });
       }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.split-heading').forEach((el) => seen.add(el));
       seen.forEach((el) => io.observe(el));
       document.documentElement.classList.add('anim-ready');
+      // Safety net: reveal anything already on screen even if the observer's first callback is late
+      const kick = () => seen.forEach((el) => {
+        if (el.classList.contains('is-visible')) return;
+        const r = el.getBoundingClientRect();
+        if (r.top < innerHeight - 20 && r.bottom > 0) { el.classList.add('is-visible'); io.unobserve(el); }
+      });
+      requestAnimationFrame(() => requestAnimationFrame(kick));
+      setTimeout(kick, 900);
     })();
 
     function showToast(msg) {
