@@ -4,6 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JAIVANTH.DEV — Jaivanth Srinivasan | AI/ML Engineer & Software Developer</title>
+  <meta name="color-scheme" content="light dark" />
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      if (t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Space Mono & Plus Jakarta Sans -->
@@ -18,8 +27,8 @@
       theme: {
         extend: {
           colors: {
-            neoBlack: '#141414',
-            neoCream: '#FAF9F6',
+            neoBlack: 'rgb(var(--ink) / <alpha-value>)',
+            neoCream: 'rgb(var(--paper) / <alpha-value>)',
             neoLime: '#D9F978',
             neoPurple: '#6D5DF6',
             neoPink: '#FF70A6',
@@ -30,9 +39,9 @@
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
           },
           boxShadow: {
-            neo: '4px 4px 0px #141414',
-            'neo-sm': '2.5px 2.5px 0px #141414',
-            'neo-lg': '6px 6px 0px #141414',
+            neo: '4px 4px 0px rgb(var(--shadow))',
+            'neo-sm': '2.5px 2.5px 0px rgb(var(--shadow))',
+            'neo-lg': '6px 6px 0px rgb(var(--shadow))',
             'neo-lime': '6px 6px 0px #D9F978',
           },
         },
@@ -45,17 +54,17 @@
     }
 
     body {
-      background-color: #EAE8E1;
-      color: #141414;
+      background-color: rgb(var(--page));
+      color: rgb(var(--ink));
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     /* Graph-paper grid pattern for Hero Left Panel */
     .bg-graph-white {
-      background-color: #FFFFFF;
+      background-color: rgb(var(--card));
       background-image:
-        linear-gradient(to right, rgba(20, 20, 20, 0.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(20, 20, 20, 0.08) 1px, transparent 1px);
+        linear-gradient(to right, rgb(var(--ink) / 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(var(--ink) / 0.08) 1px, transparent 1px);
       background-size: 24px 24px;
     }
 
@@ -70,25 +79,25 @@
 
     /* Neobrutalist Interactive Button */
     .neo-btn {
-      border: 2.5px solid #141414;
-      box-shadow: 4px 4px 0px #141414;
+      border: 2.5px solid rgb(var(--ink));
+      box-shadow: 4px 4px 0px rgb(var(--shadow));
       transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease;
     }
 
     .neo-btn:hover {
       transform: translate(-1px, -1px);
-      box-shadow: 5px 5px 0px #141414;
+      box-shadow: 5px 5px 0px rgb(var(--shadow));
     }
 
     .neo-btn:active {
       transform: translate(3px, 3px);
-      box-shadow: 1px 1px 0px #141414;
+      box-shadow: 1px 1px 0px rgb(var(--shadow));
     }
 
     /* Neobrutalist Card */
     .neo-box {
-      border: 2.5px solid #141414;
-      box-shadow: 4px 4px 0px #141414;
+      border: 2.5px solid rgb(var(--ink));
+      box-shadow: 4px 4px 0px rgb(var(--shadow));
     }
 
     /* Hide scrollbar on horizontal skills strip */
@@ -118,9 +127,103 @@
         box-shadow: none !important;
       }
     }
+
+    /* =====================================================================
+       THEME TOKENS (light default, dark via html.dark)
+    ====================================================================== */
+    :root {
+      --ink: 20 20 20;          /* text + outlines */
+      --on-ink: 255 255 255;    /* text sitting on an ink-filled surface */
+      --paper: 250 249 246;     /* cream surfaces */
+      --card: 255 255 255;      /* white surfaces */
+      --page: 234 232 225;      /* page background */
+      --shadow: 20 20 20;       /* hard offset shadows */
+    }
+    html.dark {
+      --ink: 240 238 232;
+      --on-ink: 20 20 20;
+      --paper: 24 24 28;
+      --card: 32 32 37;
+      --page: 14 14 16;
+      --shadow: 0 0 0;
+    }
+    /* Dark surfaces: white/cream become charcoal and use light ink */
+    html.dark .bg-white { background-color: rgb(var(--card)); }
+    html.dark .bg-white,
+    html.dark .bg-neoCream,
+    html.dark .bg-graph-white { --ink: 240 238 232; --on-ink: 20 20 20; }
+    /* Bright accent blocks keep dark ink so text stays readable */
+    html.dark .bg-neoLime,
+    html.dark .bg-neoPink,
+    html.dark .bg-neoCardGray { --ink: 20 20 20; --on-ink: 255 255 255; }
+    /* Surfaces set their own default text colour (class-level specificity; Tailwind's text-* utilities load later, so they still win) */
+    :where(html.dark) :is(.bg-white, .bg-neoCream, .bg-graph-white, .bg-neoLime, .bg-neoPink, .bg-neoCardGray) { color: rgb(var(--ink)); }
+    /* Ink-filled elements (black buttons, dots, toast) */
+    .bg-neoBlack.text-white,
+    .bg-neoBlack .text-white { color: rgb(var(--on-ink)); }
+    /* Muted text follows the local ink colour */
+    html.dark .text-neutral-600 { color: rgb(var(--ink) / 0.62); }
+    html.dark .text-neutral-700 { color: rgb(var(--ink) / 0.74); }
+    html.dark .text-neutral-800 { color: rgb(var(--ink) / 0.86); }
+    html.dark .text-neoPurple { color: #A79DFF; }
+    html.dark .bg-neoLime .text-neoPurple,
+    html.dark .bg-neoPink .text-neoPurple { color: #4A3BD6; }
+    /* Smooth colour change only while switching themes */
+    html.theme-switching *,
+    html.theme-switching *::before,
+    html.theme-switching *::after {
+      transition: background-color .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease !important;
+    }
+
+    /* =====================================================================
+       THEME TOGGLE
+    ====================================================================== */
+    .theme-toggle .icon-sun { display: none; }
+    html.dark .theme-toggle .icon-sun { display: block; }
+    html.dark .theme-toggle .icon-moon { display: none; }
+    .theme-toggle svg { transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+    .theme-toggle:hover svg { transform: rotate(-25deg) scale(1.1); }
+
+    /* =====================================================================
+       ANIMATIONS
+    ====================================================================== */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+    @keyframes popIn { 0% { opacity: 0; transform: scale(.88) rotate(-3deg); } 70% { transform: scale(1.03) rotate(1deg); } 100% { opacity: 1; transform: none; } }
+    @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes spinSlow { to { transform: rotate(360deg); } }
+    @keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(16deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Scroll reveal: only active once JS adds .anim-ready, so content never stays hidden without JS */
+    .anim-ready .reveal { opacity: 0; transform: translateY(24px); }
+    .anim-ready .reveal.is-visible { animation: fadeUp .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0ms); }
+    .anim-ready .reveal-pop { opacity: 0; }
+    .anim-ready .reveal-pop.is-visible { animation: popIn .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d, 0ms); }
+
+    .anim-float { animation: floatY 5s ease-in-out infinite; }
+    .anim-spin { animation: spinSlow 18s linear infinite; transform-box: fill-box; transform-origin: center; }
+    .anim-wave { display: inline-block; transform-origin: 70% 70%; animation: wave 2.6s ease-in-out 1s infinite; }
+    .caret::after { content: '\258D'; margin-left: 2px; color: #D9F978; animation: blink 1s steps(1) infinite; }
+
+    /* Hover lift for chips, tiles and cards */
+    .lift { transition: transform .18s cubic-bezier(.2,0,0,1), box-shadow .18s cubic-bezier(.2,0,0,1); }
+    .lift:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px rgb(var(--shadow)); }
+    .lift-icon > div:first-child { transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+    .lift-icon:hover > div:first-child { transform: translateY(-4px) rotate(-6deg); }
+
+    /* Scroll progress bar */
+    #scrollProgress { position: fixed; top: 0; left: 0; height: 4px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #6D5DF6, #FF70A6, #D9F978); z-index: 60; pointer-events: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .anim-ready .reveal, .anim-ready .reveal-pop { opacity: 1 !important; transform: none !important; animation: none !important; }
+      .anim-float, .anim-spin, .anim-wave, .caret::after { animation: none !important; }
+      .lift, .lift:hover, .lift-icon:hover > div:first-child { transform: none !important; }
+      html { scroll-behavior: auto; }
+    }
   </style>
 </head>
 <body class="min-h-screen selection:bg-neoLime selection:text-neoBlack">
+  <div id="scrollProgress" aria-hidden="true"></div>
 
   <!-- =====================================================================
        MAIN NEOBRUTALIST PORTFOLIO FRAME
@@ -155,8 +258,24 @@
       <!-- Right: Electric Purple Contact CTA + Mobile Hamburger -->
       <div class="flex items-stretch">
         <button
+          id="themeToggle"
+          type="button"
+          onclick="toggleTheme()"
+          aria-label="Switch to dark theme"
+          title="Toggle dark / light theme"
+          class="theme-toggle bg-white hover:bg-neoLime text-neoBlack border-l-[3px] border-neoBlack px-3 sm:px-4 flex items-center justify-center cursor-pointer transition-colors"
+        >
+          <svg class="icon-moon w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+          </svg>
+          <svg class="icon-sun w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.5" />
+            <path stroke-linecap="round" d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+          </svg>
+        </button>
+        <button
           onclick="openContactModal()"
-          class="bg-neoPurple hover:bg-[#5b4ae8] text-white border-l-[3px] border-neoBlack px-4 sm:px-6 py-3.5 font-mono text-xs sm:text-sm font-bold tracking-wide flex items-center gap-1.5 transition-colors cursor-pointer"
+          class="bg-neoPurple hover:bg-[#5b4ae8] text-white border-l-[3px] border-neoBlack px-3 sm:px-6 py-3.5 font-mono text-xs sm:text-sm font-bold tracking-wide flex items-center gap-1.5 transition-colors cursor-pointer"
         >
           <span>CONTACT ME</span>
           <span aria-hidden="true">→</span>
@@ -195,7 +314,7 @@
           <!-- Purple Pill Badge -->
           <div class="inline-flex items-center gap-2 bg-neoPurple text-white border-2 border-neoBlack shadow-neo-sm px-3 py-1.5 font-mono text-[11px] sm:text-xs font-bold tracking-wide mb-5">
             <span>HEY, I'M JAIVANTH SRINIVASAN</span>
-            <span>👋</span>
+            <span class="anim-wave">👋</span>
           </div>
 
           <!-- Bold Uppercase Headline -->
@@ -297,7 +416,7 @@
           </div>
 
           <!-- Overlapping Floating Purple Code Snippet Card matching reference -->
-          <div class="w-[88%] sm:w-[310px] ml-auto -mt-12 sm:-mt-14 relative z-10 bg-neoPurple text-white border-[3px] border-neoBlack shadow-[6px_6px_0px_#141414] p-3.5 sm:p-4 font-mono text-[11px] sm:text-xs leading-relaxed">
+          <div class="w-[88%] sm:w-[310px] ml-auto -mt-12 sm:-mt-14 relative z-10 bg-neoPurple text-white border-[3px] border-neoBlack shadow-[6px_6px_0px_rgb(var(--shadow))] p-3.5 sm:p-4 font-mono text-[11px] sm:text-xs leading-relaxed">
             <div class="text-neoLime font-bold">&gt; class Jaivanth:</div>
             <div class="pl-3">
               <span class="text-white/80">role</span> = <span class="text-neoLime">'AI/ML Engineer'</span>
@@ -553,7 +672,7 @@
           </div>
 
           <!-- Active Project Card Container -->
-          <article id="activeProjectCard" class="bg-white border-[3px] border-neoBlack shadow-[6px_6px_0px_#141414] overflow-hidden">
+          <article id="activeProjectCard" class="bg-white border-[3px] border-neoBlack shadow-[6px_6px_0px_rgb(var(--shadow))] overflow-hidden">
             <!-- Graphic Banner with Pink Frame matching reference image -->
             <div id="projectBanner" class="bg-neoPink border-b-[3px] border-neoBlack p-4 sm:p-5">
               <div id="projectArtwork" class="bg-neoCream border-[3px] border-neoBlack h-44 sm:h-56 overflow-hidden flex items-center justify-center">
@@ -615,7 +734,7 @@
           <!-- Three Extended Hard-Shadow Cards Showing Complete Details Directly -->
           <div class="space-y-4">
             <!-- Card 1: Education -->
-            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_#141414] p-4 space-y-2">
+            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_rgb(var(--shadow))] p-4 space-y-2">
               <div class="flex items-center justify-between font-mono text-[10px] font-bold">
                 <span class="text-neoPurple uppercase">EDUCATION // 2023–2027</span>
                 <span class="bg-neoLime border border-neoBlack px-1.5 py-0.5 text-neoBlack">CGPA: 8.21/10</span>
@@ -632,7 +751,7 @@
             </div>
 
             <!-- Card 2: Research Experience -->
-            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_#141414] p-4 space-y-2">
+            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_rgb(var(--shadow))] p-4 space-y-2">
               <div class="flex items-center justify-between font-mono text-[10px] font-bold">
                 <span class="text-neoBlack uppercase">RESEARCH // JUN–JUL 2025</span>
                 <span class="bg-neoPink border border-neoBlack px-1.5 py-0.5">BIT</span>
@@ -649,7 +768,7 @@
             </div>
 
             <!-- Card 3: Hackathon Achievement -->
-            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_#141414] p-4 space-y-2">
+            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_rgb(var(--shadow))] p-4 space-y-2">
               <div class="flex items-center justify-between font-mono text-[10px] font-bold">
                 <span class="text-neoBlack uppercase">COMPETITIVE HONORS</span>
                 <span class="bg-neoPurple text-white border border-neoBlack px-1.5 py-0.5">TOP 20</span>
@@ -663,7 +782,7 @@
             </div>
 
             <!-- Card 4: Languages -->
-            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_#141414] p-4 space-y-2">
+            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_rgb(var(--shadow))] p-4 space-y-2">
               <div class="flex items-center justify-between font-mono text-[10px] font-bold">
                 <span class="text-neoBlack uppercase">LANGUAGES // SPOKEN</span>
                 <span class="bg-neoLime border border-neoBlack px-1.5 py-0.5 text-neoBlack">4</span>
@@ -796,12 +915,13 @@
         <svg
           aria-hidden="true"
           viewBox="0 0 120 120"
-          class="w-24 h-24 sm:w-28 sm:h-28 absolute -bottom-5 -right-5 text-neoPink pointer-events-none"
+          class="w-24 h-24 sm:w-28 sm:h-28 absolute -bottom-5 -right-5 text-neoPink pointer-events-none anim-spin"
         >
           <polygon
             fill="currentColor"
-            stroke="#141414"
+            stroke="currentColor"
             stroke-width="3.5"
+            style="stroke: rgb(var(--ink))"
             points="60,4 73,28 100,18 93,46 116,60 93,74 100,102 73,92 60,116 47,92 20,102 27,74 4,60 27,46 20,18 47,28"
           />
         </svg>
@@ -873,7 +993,7 @@
 
   <!-- 1. General Info / Project Details / Academic Modal -->
   <div id="universalModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-neoBlack/60 backdrop-blur-[1px]">
-    <div class="bg-neoCream border-[3px] border-neoBlack shadow-[8px_8px_0px_#141414] w-full max-w-2xl max-h-[88vh] flex flex-col overflow-hidden">
+    <div class="bg-neoCream border-[3px] border-neoBlack shadow-[8px_8px_0px_rgb(var(--shadow))] w-full max-w-2xl max-h-[88vh] flex flex-col overflow-hidden">
       <div id="modalHeaderBar" class="bg-neoLime border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between shrink-0">
         <h3 id="modalHeaderTitle" class="font-mono font-bold text-sm sm:text-base uppercase">DETAILS</h3>
         <button onclick="closeUniversalModal()" class="neo-btn bg-white w-8 h-8 font-mono font-bold text-xs flex items-center justify-center cursor-pointer">✕</button>
@@ -884,7 +1004,7 @@
 
   <!-- 2. Full Printable Resume Modal -->
   <div id="resumeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-neoBlack/60 backdrop-blur-[1px]">
-    <div id="printableResumeArea" class="bg-white border-[3px] border-neoBlack shadow-[8px_8px_0px_#141414] w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
+    <div id="printableResumeArea" class="bg-white border-[3px] border-neoBlack shadow-[8px_8px_0px_rgb(var(--shadow))] w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
       <div class="bg-neoLime border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between shrink-0">
         <span class="font-mono font-bold text-xs sm:text-sm uppercase">CURRICULUM VITAE // JAIVANTH SRINIVASAN</span>
         <div class="flex items-center gap-2">
@@ -966,7 +1086,7 @@
 
   <!-- 3. Contact Me Modal -->
   <div id="contactModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-neoBlack/60 backdrop-blur-[1px]">
-    <div class="bg-neoCream border-[3px] border-neoBlack shadow-[8px_8px_0px_#141414] w-full max-w-md overflow-hidden">
+    <div class="bg-neoCream border-[3px] border-neoBlack shadow-[8px_8px_0px_rgb(var(--shadow))] w-full max-w-md overflow-hidden">
       <div class="bg-neoPurple text-white border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between">
         <h3 class="font-mono font-bold text-sm uppercase">GET IN TOUCH WITH JAIVANTH</h3>
         <button onclick="closeContactModal()" class="neo-btn bg-white text-neoBlack w-8 h-8 font-mono font-bold text-xs flex items-center justify-center cursor-pointer">✕</button>
@@ -1250,6 +1370,81 @@
       document.body.removeChild(tempInput);
       showToast(`Copied email: ${email}`);
     }
+
+
+    // ===================== THEME =====================
+    function applyThemeLabel() {
+      const dark = document.documentElement.classList.contains('dark');
+      const btn = document.getElementById('themeToggle');
+      if (btn) btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    function toggleTheme() {
+      const root = document.documentElement;
+      root.classList.add('theme-switching');
+      const dark = root.classList.toggle('dark');
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+      applyThemeLabel();
+      setTimeout(() => root.classList.remove('theme-switching'), 400);
+    }
+    applyThemeLabel();
+
+    // ===================== ANIMATIONS =====================
+    (function initAnimations() {
+      const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Scroll progress bar
+      const bar = document.getElementById('scrollProgress');
+      const onScroll = () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
+      };
+      addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // Hover lift on skill chips, skill tiles and education cards
+      document.querySelectorAll('#skills .grid.gap-2 > div').forEach((el) => el.classList.add('lift'));
+      document.querySelectorAll('#skills .grid.gap-3 > div').forEach((el) => el.classList.add('lift-icon'));
+      document.querySelectorAll('#education .space-y-4 > div').forEach((el) => el.classList.add('lift'));
+
+      // Portrait gently floats; code card gets a blinking caret
+      const portrait = document.getElementById('heroPortraitImg');
+      const portraitWrap = portrait && portrait.closest('.relative.w-full');
+      if (portraitWrap) portraitWrap.classList.add('anim-float');
+      const codeCard = [...document.querySelectorAll('#top .bg-neoPurple')].pop();
+      if (codeCard && codeCard.lastElementChild) codeCard.lastElementChild.classList.add('caret');
+
+      if (reduce || !('IntersectionObserver' in window)) return;
+
+      // Scroll reveal groups: [selector, stagger in ms, style]
+      const groups = [
+        ['#top > div:first-child > div > *', 110, 'reveal'],
+        ['#top > div:last-child > div', 0, 'reveal-pop'],
+        ['#skills h2, #skills .grid.gap-3 > div', 60, 'reveal'],
+        ['#skills .grid.gap-2 > div', 25, 'reveal'],
+        ['#projects > *', 120, 'reveal'],
+        ['#education h2, #education .space-y-4 > div', 110, 'reveal'],
+        ['#experience > div', 120, 'reveal'],
+        ['#portfolioRoot > section:last-of-type > div:last-child > *', 120, 'reveal'],
+        ['#portfolioRoot footer > *', 80, 'reveal'],
+      ];
+      const seen = new Set();
+      groups.forEach(([sel, step, cls]) => {
+        let i = 0;
+        document.querySelectorAll(sel).forEach((el) => {
+          if (seen.has(el)) return;
+          seen.add(el);
+          el.classList.add(cls);
+          el.style.setProperty('--d', Math.min(i++ * step, 700) + 'ms');
+        });
+      });
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      seen.forEach((el) => io.observe(el));
+      document.documentElement.classList.add('anim-ready');
+    })();
 
     function showToast(msg) {
       const toast = document.getElementById('toastMessage');
