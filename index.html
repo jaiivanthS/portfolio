@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAIVANTH.DEV — Jaivanth Srinivasan | AI/ML Engineer & Software Developer</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Space Mono & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            neoBlack: '#141414',
+            neoCream: '#FAF9F6',
+            neoLime: '#D9F978',
+            neoPurple: '#6D5DF6',
+            neoPink: '#FF70A6',
+            neoCardGray: '#DFDFE2',
+          },
+          fontFamily: {
+            mono: ['"Space Mono"', 'monospace'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          boxShadow: {
+            neo: '4px 4px 0px #141414',
+            'neo-sm': '2.5px 2.5px 0px #141414',
+            'neo-lg': '6px 6px 0px #141414',
+            'neo-lime': '6px 6px 0px #D9F978',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #EAE8E1;
+      color: #141414;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Graph-paper grid pattern for Hero Left Panel */
+    .bg-graph-white {
+      background-color: #FFFFFF;
+      background-image:
+        linear-gradient(to right, rgba(20, 20, 20, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(20, 20, 20, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Subtle grid pattern for Electric Purple CTA block */
+    .bg-graph-purple {
+      background-color: #6D5DF6;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Neobrutalist Interactive Button */
+    .neo-btn {
+      border: 2.5px solid #141414;
+      box-shadow: 4px 4px 0px #141414;
+      transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease;
+    }
+
+    .neo-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px #141414;
+    }
+
+    .neo-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px #141414;
+    }
+
+    /* Neobrutalist Card */
+    .neo-box {
+      border: 2.5px solid #141414;
+      box-shadow: 4px 4px 0px #141414;
+    }
+
+    /* Hide scrollbar on horizontal skills strip */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Mobile Preview Mode when toggled on Desktop */
+    body.mobile-sim-mode #portfolioRoot {
+      max-width: 410px !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printableResumeArea, #printableResumeArea * {
+        visibility: visible;
+      }
+      #printableResumeArea {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen py-3 px-2.5 sm:py-6 sm:px-5 lg:py-8 lg:px-8 selection:bg-neoLime selection:text-neoBlack">
+
+  <!-- Optional Top Utility Bar for Quick Laptop / Mobile Preview Switching on Desktop -->
+  <div class="hidden lg:flex max-w-[1160px] mx-auto mb-3 items-center justify-between text-xs font-mono">
+    <div class="flex items-center gap-2 bg-white border-2 border-neoBlack shadow-neo-sm px-3 py-1">
+      <span class="w-2.5 h-2.5 bg-neoLime border border-neoBlack inline-block"></span>
+      <span class="font-bold">JAIVANTH.DEV // PORTFOLIO v2.0</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-neutral-700 font-bold">VIEWPORT PREVIEW:</span>
+      <button
+        id="btnDesktopView"
+        onclick="setPreviewMode('desktop')"
+        class="px-2.5 py-1 border-2 border-neoBlack bg-neoBlack text-white font-bold shadow-neo-sm cursor-pointer"
+      >
+        LAPTOP
+      </button>
+      <button
+        id="btnMobileView"
+        onclick="setPreviewMode('mobile')"
+        class="px-2.5 py-1 border-2 border-neoBlack bg-white text-neoBlack hover:bg-neoLime font-bold shadow-neo-sm cursor-pointer"
+      >
+        MOBILE
+      </button>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MAIN NEOBRUTALIST PORTFOLIO FRAME
+  ====================================================================== -->
+  <div
+    id="portfolioRoot"
+    class="max-w-[1160px] mx-auto bg-neoCream border-[3px] border-neoBlack shadow-[8px_8px_0px_#141414] transition-all duration-300 overflow-hidden"
+  >
+
+    <!-- ===================================================================
+         1. TOP NAVBAR
+    ==================================================================== -->
+    <header class="sticky top-0 z-40 bg-white border-b-[3px] border-neoBlack flex items-stretch justify-between">
+      <!-- Left: Lime Brand Badge -->
+      <a
+        href="#top"
+        class="bg-neoLime border-r-[3px] border-neoBlack px-4 sm:px-6 py-3.5 flex items-center gap-2 font-mono font-bold text-sm sm:text-base tracking-tight hover:bg-[#ccf54e] transition-colors shrink-0"
+      >
+        <span class="text-neoBlack font-extrabold">&lt;/&gt;</span>
+        <span>JAIVANTH.DEV</span>
+      </a>
+
+      <!-- Center: Desktop Navigation Links -->
+      <nav aria-label="Primary Navigation" class="hidden md:flex items-center justify-center gap-6 lg:gap-8 px-4 font-mono text-xs font-bold tracking-wider">
+        <a href="#skills" class="hover:underline decoration-2 underline-offset-4 hover:text-neoPurple transition-colors">SKILLS</a>
+        <a href="#projects" class="hover:underline decoration-2 underline-offset-4 hover:text-neoPurple transition-colors">PROJECTS</a>
+        <a href="#experience" class="hover:underline decoration-2 underline-offset-4 hover:text-neoPurple transition-colors">EXPERIENCE</a>
+        <a href="#education" class="hover:underline decoration-2 underline-offset-4 hover:text-neoPurple transition-colors">EDUCATION</a>
+        <button onclick="openResumeModal()" class="hover:underline decoration-2 underline-offset-4 hover:text-neoPurple transition-colors uppercase cursor-pointer">RESUME</button>
+      </nav>
+
+      <!-- Right: Electric Purple Contact CTA + Mobile Hamburger -->
+      <div class="flex items-stretch">
+        <button
+          onclick="openContactModal()"
+          class="bg-neoPurple hover:bg-[#5b4ae8] text-white border-l-[3px] border-neoBlack px-4 sm:px-6 py-3.5 font-mono text-xs sm:text-sm font-bold tracking-wide flex items-center gap-1.5 transition-colors cursor-pointer"
+        >
+          <span>CONTACT ME</span>
+          <span aria-hidden="true">→</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button
+          id="mobileMenuBtn"
+          onclick="toggleMobileDrawer()"
+          aria-label="Toggle Navigation Menu"
+          class="md:hidden bg-neoCream hover:bg-neoLime border-l-[3px] border-neoBlack px-3.5 flex items-center justify-center cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Collapsible Mobile Navigation Drawer -->
+    <div id="mobileDrawer" class="hidden md:hidden bg-neoLime border-b-[3px] border-neoBlack px-4 py-4 space-y-2 font-mono text-xs font-bold">
+      <a href="#skills" onclick="toggleMobileDrawer()" class="block bg-white border-2 border-neoBlack shadow-neo-sm px-3 py-2.5">01 // SKILLS &amp; STACK</a>
+      <a href="#projects" onclick="toggleMobileDrawer()" class="block bg-white border-2 border-neoBlack shadow-neo-sm px-3 py-2.5">02 // FEATURED PROJECTS</a>
+      <a href="#education" onclick="toggleMobileDrawer()" class="block bg-white border-2 border-neoBlack shadow-neo-sm px-3 py-2.5">03 // EDUCATION &amp; ACHIEVEMENTS</a>
+      <a href="#experience" onclick="toggleMobileDrawer()" class="block bg-white border-2 border-neoBlack shadow-neo-sm px-3 py-2.5">04 // WORK EXPERIENCE</a>
+      <button onclick="toggleMobileDrawer(); openResumeModal()" class="w-full text-left bg-neoBlack text-white border-2 border-neoBlack px-3 py-2.5 cursor-pointer">05 // VIEW FULL RESUME →</button>
+    </div>
+
+    <!-- ===================================================================
+         2. HERO SECTION (50/50 Split on Laptop, Stacked on Mobile)
+    ==================================================================== -->
+    <section id="top" class="grid grid-cols-1 lg:grid-cols-12 border-b-[3px] border-neoBlack">
+      <!-- Hero Left Panel: Graph-Paper White Grid -->
+      <div class="lg:col-span-6 bg-graph-white p-6 sm:p-10 lg:p-12 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-neoBlack flex flex-col justify-between">
+        <div>
+          <!-- Purple Pill Badge -->
+          <div class="inline-flex items-center gap-2 bg-neoPurple text-white border-2 border-neoBlack shadow-neo-sm px-3 py-1.5 font-mono text-[11px] sm:text-xs font-bold tracking-wide mb-5">
+            <span>HEY, I'M JAIVANTH SRINIVASAN</span>
+            <span>👋</span>
+          </div>
+
+          <!-- Bold Uppercase Headline -->
+          <h1 class="font-sans font-extrabold text-3xl sm:text-5xl lg:text-[46px] leading-[1.05] tracking-tight text-neoBlack uppercase mb-5">
+            AI/ML ENGINEER &amp;<br />
+            SOFTWARE DEVELOPER
+          </h1>
+
+          <!-- Bio Copy -->
+          <p class="font-mono text-xs sm:text-[13.5px] leading-relaxed text-neutral-800 mb-7 max-w-xl">
+            I am a Computer Science and Engineering student specializing in Artificial Intelligence and Machine Learning at <strong class="text-neoBlack">SRM Institute of Science and Technology</strong>. I build intelligent applications using Machine Learning, Deep Learning, Generative AI, Large Language Models, RAG systems, and Agentic AI. I am passionate about solving real-world problems through AI research, intelligent automation, and scalable software engineering.
+          </p>
+
+          <!-- Primary & Secondary CTA Buttons -->
+          <div class="flex flex-wrap items-center gap-3.5 mb-8">
+            <a
+              href="#projects"
+              class="neo-btn bg-neoLime hover:bg-[#ccf54e] text-neoBlack px-5 py-3 font-mono text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2"
+            >
+              <span>VIEW MY WORK</span>
+              <span>↗</span>
+            </a>
+
+            <button
+              onclick="openResumeModal()"
+              class="neo-btn bg-white hover:bg-neoCream text-neoBlack px-5 py-3 font-mono text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>DOWNLOAD RESUME</span>
+              <span>↓</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Connect With Me Social Bar -->
+        <div>
+          <div class="font-mono text-[11px] font-bold tracking-wider uppercase text-neoBlack mb-2.5">
+            CONNECT WITH ME
+          </div>
+          <div class="flex items-center gap-3">
+            <!-- GitHub -->
+            <a
+              href="https://github.com/jaiivanthS"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub Profile"
+              title="GitHub — https://github.com/jaiivanthS"
+              class="neo-btn bg-white hover:bg-neoLime w-10 h-10 flex items-center justify-center cursor-pointer"
+            >
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11.04 11.04 0 0 1 5.76 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.58.23 2.75.11 3.04.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+              </svg>
+            </a>
+
+            <!-- LinkedIn -->
+            <a
+              href="https://www.linkedin.com/in/jaivanth-srinivasan/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
+              title="LinkedIn — https://www.linkedin.com/in/jaivanth-srinivasan/"
+              class="neo-btn bg-white hover:bg-neoLime w-10 h-10 flex items-center justify-center cursor-pointer"
+            >
+              <span class="font-sans font-extrabold text-base tracking-tighter">in</span>
+            </a>
+
+            <!-- Email -->
+            <button
+              onclick="copyEmailToClipboard()"
+              aria-label="Copy Email Address"
+              title="Copy jaiivanth@gmail.com"
+              class="neo-btn bg-white hover:bg-neoLime px-3.5 h-10 flex items-center justify-center gap-2 font-mono text-xs font-bold cursor-pointer"
+            >
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                <rect x="2" y="4" width="20" height="16" rx="1" />
+                <path d="M22 6l-10 7L2 6" />
+              </svg>
+              <span>jaiivanth@gmail.com</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Right Panel: Vibrant Pink (#FF70A6) with Framed Portrait & Overlapping Code Card -->
+      <div class="lg:col-span-6 bg-neoPink p-6 sm:p-10 lg:p-12 flex items-center justify-center relative overflow-hidden">
+        <div class="relative w-full max-w-[380px] py-4">
+          <!-- Offset Lime Backplate matching reference image -->
+          <div class="w-[78%] sm:w-[275px] h-[250px] sm:h-[290px] mx-auto bg-neoLime border-[3px] border-neoBlack translate-x-3 -translate-y-3"></div>
+
+          <!-- Framed Portrait Card -->
+          <div class="w-[78%] sm:w-[275px] h-[250px] sm:h-[290px] mx-auto -mt-[250px] sm:-mt-[290px] bg-[#1C1B29] border-[3px] border-neoBlack relative overflow-hidden group">
+            <!-- Custom Stylized AI/ML Engineer Portrait SVG (Swap easily with your headshot) -->
+            <img
+              id="heroPortraitImg"
+              src=""
+              alt="Jaivanth Srinivasan"
+              class="hidden w-full h-full object-cover"
+            />
+            <svg id="heroPortraitSvg" viewBox="0 0 280 300" class="w-full h-full" role="img" aria-label="Jaivanth Srinivasan AI/ML Engineer Portrait">
+              <defs>
+                <linearGradient id="sunsetBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2E294E" />
+                  <stop offset="55%" stop-color="#6D5DF6" />
+                  <stop offset="100%" stop-color="#FF9F1C" />
+                </linearGradient>
+              </defs>
+              <rect width="280" height="300" fill="url(#sunsetBg)" />
+              <!-- Subtle neural network nodes in background -->
+              <g stroke="#D9F978" stroke-width="1.2" opacity="0.35">
+                <line x1="35" y1="45" x2="90" y2="75" />
+                <line x1="90" y1="75" x2="230" y2="50" />
+                <line x1="230" y1="50" x2="245" y2="120" />
+                <line x1="35" y1="45" x2="50" y2="135" />
+                <circle cx="35" cy="45" r="3" fill="#D9F978" />
+                <circle cx="90" cy="75" r="3" fill="#D9F978" />
+                <circle cx="230" cy="50" r="3" fill="#D9F978" />
+              </g>
+              <!-- Stylized Developer Silhouette & Laptop -->
+              <path d="M55 300 C60 225, 95 205, 140 205 C185 205, 220 225, 225 300 Z" fill="#141414" />
+              <rect x="126" y="172" width="28" height="38" rx="8" fill="#D49A72" stroke="#141414" stroke-width="2.5" />
+              <circle cx="140" cy="136" r="40" fill="#E0A980" stroke="#141414" stroke-width="2.5" />
+              <!-- Hair -->
+              <path d="M98 134 C96 92, 184 92, 182 134 C178 112, 155 106, 140 108 C120 110, 104 116, 98 134 Z" fill="#141414" />
+              <!-- Glasses -->
+              <rect x="112" y="128" width="22" height="14" rx="2" fill="none" stroke="#141414" stroke-width="2.5" />
+              <rect x="146" y="128" width="22" height="14" rx="2" fill="none" stroke="#141414" stroke-width="2.5" />
+              <line x1="134" y1="134" x2="146" y2="134" stroke="#141414" stroke-width="2.5" />
+              <!-- Smile -->
+              <path d="M130 154 Q140 162 150 154" fill="none" stroke="#141414" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+
+            <!-- Photo Upload Trigger Overlay -->
+            <label
+              for="photoUploadInput"
+              title="Upload your headshot photo"
+              class="absolute top-2.5 right-2.5 bg-neoLime hover:bg-white border-2 border-neoBlack shadow-neo-sm px-2 py-1 font-mono text-[10px] font-bold cursor-pointer opacity-90 hover:opacity-100 transition-opacity"
+            >
+              📷 SWAP PHOTO
+            </label>
+            <input id="photoUploadInput" type="file" accept="image/*" class="hidden" onchange="previewCustomPhoto(event)" />
+          </div>
+
+          <!-- Overlapping Floating Purple Code Snippet Card matching reference -->
+          <div class="w-[88%] sm:w-[310px] ml-auto -mt-12 sm:-mt-14 relative z-10 bg-neoPurple text-white border-[3px] border-neoBlack shadow-[6px_6px_0px_#141414] p-3.5 sm:p-4 font-mono text-[11px] sm:text-xs leading-relaxed">
+            <div class="text-neoLime font-bold">&gt; class Jaivanth:</div>
+            <div class="pl-3">
+              <span class="text-white/80">role</span> = <span class="text-neoLime">'AI/ML Engineer'</span>
+            </div>
+            <div class="pl-3">
+              <span class="text-white/80">skills</span> = [<span class="text-neoLime">'ML'</span>, <span class="text-neoLime">'GenAI'</span>, <span class="text-neoLime">'RAG'</span>, <span class="text-neoLime">'Agentic AI'</span>]
+            </div>
+            <div class="pl-3">
+              <span class="text-white/80">mindset</span> = <span class="text-neoLime">'Build. Innovate. Deploy.'</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         3. HORIZONTAL SKILLS BAR (ALL 18 SKILLS EXTENDED & VISIBLE)
+    ==================================================================== -->
+    <section id="skills" class="border-b-[3px] border-neoBlack bg-white">
+      <div class="flex flex-col md:flex-row items-stretch">
+        <!-- Left Solid Purple Block: SKILLS -> -->
+        <div class="bg-neoPurple text-white border-b-[3px] md:border-b-0 md:border-r-[3px] border-neoBlack px-6 py-4 md:py-6 md:w-[190px] shrink-0 flex items-center justify-between md:flex-col md:items-start md:justify-center gap-1">
+          <span class="font-mono font-bold text-sm sm:text-base tracking-wider uppercase">SKILLS</span>
+          <span class="font-mono font-bold text-lg">→</span>
+        </div>
+
+        <!-- Right 8 Core Skills Strip + Extended 10 Tools Grid -->
+        <div class="flex-1 p-4 sm:p-5 flex flex-col justify-center">
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+            <!-- 1. Python -->
+            <div class="flex flex-col items-center justify-center p-2.5 border-2 border-transparent hover:border-neoBlack hover:bg-neoCream transition-all text-center">
+              <div class="w-9 h-9 border-2 border-neoBlack bg-neoLime flex items-center justify-center mb-1.5 shadow-neo-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2c-3 0-5 1.3-5 3.5V8h5v1H6c-2.2 0-4 1.8-4 4s1.8 4 4 4h2v-2.5C8 12.6 9.6 11 11.5 11h3c1.4 0 2.5-1.1 2.5-2.5v-3C17 3.3 15 2 12 2z"/>
+                  <circle cx="9.5" cy="5.5" r="1" fill="currentColor"/>
+                  <path d="M12 22c3 0 5-1.3 5-3.5V16h-5v-1h6c2.2 0 4-1.8 4-4s-1.8-4-4-4h-2v2.5c0 1.9-1.6 3.5-3.5 3.5h-3C8.1 13 7 14.1 7 15.5v3C7 20.7 9 22 12 22z"/>
+                </svg>
+              </div>
+              <span class="font-mono text-[11px] font-bold">Python</span>
+            </div>
+
+            <!-- 2. Machine Learning -->
+            <div class="flex flex-col items-center justify-center p-2.5 border-2 border-transparent hover:border-neoBlack hover:bg-neoCream transition-all text-center">
+              <div class="w-9 h-9 border-2 border-neoBlack bg-white flex items-center justify-center mb-1.5 shadow-neo-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="5" cy="6" r="2.5" />
+                  <circle cx="5" cy="18" r="2.5" />
+                  <circle cx="19" cy="12" r="2.5" />
+                  <path d="M7.3 7.2L16.7 11M7.3 16.8L16.7 13" />
+                </svg>
+              </div>
+              <span class="font-mono text-[11px] font-bold leading-tight">Machine Learning</span>
+            </div>
+
+            <!-- 3. Deep Learning -->
+            <div class="flex flex-col items-center justify-center p-2.5 border-2 border-transparent hover:border-neoBlack hover:bg-neoCream transition-all text-center">
+              <div class="w-9 h-9 border-2 border-neoBlack bg-neoPink flex items-center justify-center mb-1.5 shadow-neo-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="4" cy="6" r="2" /><circle cx="4" cy="12" r="2" /><circle cx="4" cy="18" r="2" />
+                  <circle cx="12" cy="8" r="2" /><circle cx="12" cy="16" r="2" />
+                  <circle cx="20" cy="12" r="2" />
+                  <path d="M6 6l4 2M6 12l4-4M6 12l4 4M6 18l4-2M14 8l4 4M14 16l4-4" />
+                </svg>
+              </div>
+              <span class="font-mono text-[11px] font-bold leading-tight">Deep Learning</span>
+            </div>
+
+            <!-- 4. Generative AI -->
+            <div class="flex flex-col items-center justify-center p-2.5 border-2 border-transparent hover:border-neoBlack hover:bg-neoCream transition-all text-center">
+              <div class="w-9 h-9 border-2 border-neoBlack bg-neoPurple text-white flex items-center justify-center mb-1.5 shadow-neo-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2L12 2z" />
+                </svg>
+              </div>
+              <span class="font-mono text-[11px] font-bold leading-tight">Generative AI</span>
+            </div>
+
+            <!-- 5. LLMs -->
+            <div class="flex flex-col items-center justify-center p-2.5 border-2 border-transparent hover:border-neoBlack hover:bg-neoCream transition-all text-center">
+              <div class="w-9 h-9 border-2 border-neoBlack bg-white flex items-center justify-center mb-1.5 shadow-neo-sm font-mono font-bold text-xs">
+                LLM
+              </div>
+              <span class="font-mono text-[11px] font-bold leading-tight">LLMs</span>
+            </div>
+
+            <!-- 6. RAG -->
+            <div class="flex flex-col items-center justify-center p-2.5 border-2 border-transparent hover:border-neoBlack hover:bg-neoCream transition-all text-center">
+              <div class="w-9 h-9 border-2 border-neoBlack bg-neoLime flex items-center justify-center mb-1.5 shadow-neo-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <ellipse cx="12" cy="5" rx="8" ry="3" />
+                  <path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5" />
+                  <path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+                </svg>
+              </div>
+              <span class="font-mono text-[11px] font-bold leading-tight">RAG Systems</span>
+            </div>
+
+            <!-- 7. PyTorch -->
+            <div class="flex flex-col items-center justify-center p-2.5 border-2 border-transparent hover:border-neoBlack hover:bg-neoCream transition-all text-center">
+              <div class="w-9 h-9 border-2 border-neoBlack bg-white flex items-center justify-center mb-1.5 shadow-neo-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M12 3a9 9 0 1 0 6.36 2.64L12 12V3z" />
+                  <circle cx="16.5" cy="4.5" r="1.5" fill="currentColor" />
+                </svg>
+              </div>
+              <span class="font-mono text-[11px] font-bold leading-tight">PyTorch</span>
+            </div>
+
+            <!-- 8. Docker -->
+            <div class="flex flex-col items-center justify-center p-2.5 border-2 border-transparent hover:border-neoBlack hover:bg-neoCream transition-all text-center">
+              <div class="w-9 h-9 border-2 border-neoBlack bg-neoCream flex items-center justify-center mb-1.5 shadow-neo-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="4" y="9" width="4" height="3" />
+                  <rect x="9" y="9" width="4" height="3" />
+                  <rect x="14" y="9" width="4" height="3" />
+                  <rect x="9" y="5" width="4" height="3" />
+                  <path d="M2 13h19c-.5 4.5-4.5 7-9.5 7S3.5 17.5 2 13z" />
+                </svg>
+              </div>
+              <span class="font-mono text-[11px] font-bold leading-tight">Docker</span>
+            </div>
+          </div>
+
+          <!-- Extended Full Skills & Tools Matrix (All 18 Skills Directly Visible) -->
+          <div class="mt-4 pt-3.5 border-t-2 border-dashed border-neoBlack/30 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-[11px] font-bold uppercase tracking-wider text-neoBlack">
+                ADDITIONAL AI, DATA &amp; DEVOPS TOOLKIT (10)
+              </span>
+              <span class="bg-neoLime border border-neoBlack px-2 py-0.5 font-mono text-[10px] font-bold">
+                18 TOTAL SKILLS
+              </span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              <div class="bg-neoCream border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoPurple inline-block shrink-0"></span>
+                <span>Agentic AI</span>
+              </div>
+              <div class="bg-neoCream border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoPink inline-block shrink-0"></span>
+                <span>NLP</span>
+              </div>
+              <div class="bg-neoCream border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoLime border border-neoBlack inline-block shrink-0"></span>
+                <span>Computer Vision</span>
+              </div>
+              <div class="bg-neoCream border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoPurple inline-block shrink-0"></span>
+                <span>SQL</span>
+              </div>
+              <div class="bg-neoCream border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoPink inline-block shrink-0"></span>
+                <span>FastAPI</span>
+              </div>
+              <div class="bg-neoLime border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoBlack inline-block shrink-0"></span>
+                <span>OpenCV</span>
+              </div>
+              <div class="bg-neoLime border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoBlack inline-block shrink-0"></span>
+                <span>Kubernetes</span>
+              </div>
+              <div class="bg-neoLime border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoBlack inline-block shrink-0"></span>
+                <span>Jenkins</span>
+              </div>
+              <div class="bg-neoLime border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoBlack inline-block shrink-0"></span>
+                <span>Git</span>
+              </div>
+              <div class="bg-neoLime border-2 border-neoBlack shadow-neo-sm px-2.5 py-1.5 font-mono text-[11px] font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 bg-neoBlack inline-block shrink-0"></span>
+                <span>CVAT</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         4. MIDDLE SPLIT SECTION: FEATURED PROJECTS (Left ~68%) + EDUCATION & ACHIEVEMENTS (Right ~32%)
+    ==================================================================== -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 border-b-[3px] border-neoBlack">
+      <!-- LEFT COLUMN (~68% -> 8 cols): FEATURED PROJECTS CAROUSEL -->
+      <div id="projects" class="lg:col-span-8 bg-neoCream p-6 sm:p-8 lg:p-10 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-neoBlack flex flex-col justify-between">
+        <div>
+          <!-- Top Header Row -->
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <div>
+              <h2 class="font-sans font-extrabold text-xl sm:text-2xl tracking-tight uppercase text-neoBlack mb-2.5">
+                FEATURED PROJECTS
+              </h2>
+              <button
+                onclick="openAllProjectsModal()"
+                class="neo-btn bg-white hover:bg-neoLime px-3.5 py-1.5 font-mono text-[11px] font-bold uppercase inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>VIEW ALL PROJECTS</span>
+                <span>→</span>
+              </button>
+            </div>
+
+            <!-- Pink Prev / Next Square Controls matching reference -->
+            <div class="flex items-center gap-2 self-end">
+              <button
+                onclick="changeProject(-1)"
+                aria-label="Previous Project"
+                class="neo-btn bg-neoPink hover:bg-[#ff5797] w-9 h-9 font-mono font-bold text-sm flex items-center justify-center cursor-pointer"
+              >
+                &lt;
+              </button>
+              <button
+                onclick="changeProject(1)"
+                aria-label="Next Project"
+                class="neo-btn bg-neoPink hover:bg-[#ff5797] w-9 h-9 font-mono font-bold text-sm flex items-center justify-center cursor-pointer"
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Project Card Container -->
+          <article id="activeProjectCard" class="bg-white border-[3px] border-neoBlack shadow-[6px_6px_0px_#141414] overflow-hidden">
+            <!-- Graphic Banner with Pink Frame matching reference image -->
+            <div id="projectBanner" class="bg-neoPink border-b-[3px] border-neoBlack p-4 sm:p-5">
+              <div id="projectArtwork" class="bg-neoCream border-[3px] border-neoBlack h-44 sm:h-56 overflow-hidden flex items-center justify-center">
+                <!-- Dynamic SVG Illustration Rendered Here -->
+              </div>
+            </div>
+
+            <!-- Project Text & Tags -->
+            <div class="p-5 sm:p-6">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h3 id="projectTitle" class="font-sans font-extrabold text-lg sm:text-xl uppercase tracking-tight text-neoBlack">
+                  ENTERPRISE AI CHATBOT – SQL-BASED RAG
+                </h3>
+                <span id="projectBadge" class="bg-neoLime border-2 border-neoBlack px-2 py-0.5 font-mono text-[10px] font-bold shrink-0">
+                  01 / 03
+                </span>
+              </div>
+
+              <p id="projectDesc" class="font-mono text-xs sm:text-[13px] leading-relaxed text-neutral-700 mb-4">
+                Developed an enterprise chatbot during an internship at Hyundai Motor India using a SQL-based Retrieval-Augmented Generation workflow. Implemented frequency-based confidence thresholding to improve response reliability and reduce hallucinations when answering questions from enterprise data.
+              </p>
+
+              <!-- Tech Stack Tags -->
+              <div id="projectTags" class="flex flex-wrap gap-2 mb-5">
+                <span class="border-2 border-neoBlack bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold">Python</span>
+                <span class="border-2 border-neoBlack bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold">LLMs</span>
+                <span class="border-2 border-neoBlack bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold">RAG</span>
+                <span class="border-2 border-neoBlack bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold">SQL</span>
+                <span class="border-2 border-neoBlack bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold">NLP</span>
+              </div>
+
+              <!-- View Details Button -->
+              <button
+                onclick="openProjectDetailModal()"
+                class="neo-btn bg-white hover:bg-neoLime px-4 py-2 font-mono text-xs font-bold uppercase inline-flex items-center gap-2 cursor-pointer"
+              >
+                <span>VIEW DETAILS</span>
+                <span>→</span>
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <!-- Pagination Dots below Project Card -->
+        <div id="projectDots" class="flex items-center justify-center gap-2.5 pt-6">
+          <button onclick="setProjectIndex(0)" aria-label="Project 1" class="w-3.5 h-3.5 rounded-full bg-neoBlack border-2 border-neoBlack cursor-pointer"></button>
+          <button onclick="setProjectIndex(1)" aria-label="Project 2" class="w-3 h-3 rounded-full bg-white border-2 border-neoBlack cursor-pointer"></button>
+          <button onclick="setProjectIndex(2)" aria-label="Project 3" class="w-3 h-3 rounded-full bg-white border-2 border-neoBlack cursor-pointer"></button>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN (~32% -> 4 cols): EXTENDED LIME GREEN EDUCATION & ACHIEVEMENTS SIDEBAR -->
+      <aside id="education" class="lg:col-span-4 bg-neoLime p-6 sm:p-8 flex flex-col justify-between">
+        <div>
+          <h2 class="font-sans font-extrabold text-lg sm:text-xl tracking-tight uppercase text-neoBlack mb-5">
+            EDUCATION &amp; ACHIEVEMENTS
+          </h2>
+
+          <!-- Three Extended Hard-Shadow Cards Showing Complete Details Directly -->
+          <div class="space-y-4">
+            <!-- Card 1: Education -->
+            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_#141414] p-4 space-y-2">
+              <div class="flex items-center justify-between font-mono text-[10px] font-bold">
+                <span class="text-neoPurple uppercase">EDUCATION // 2023–2027</span>
+                <span class="bg-neoLime border border-neoBlack px-1.5 py-0.5 text-neoBlack">CGPA: 8.21/10</span>
+              </div>
+              <h3 class="font-sans font-extrabold text-base text-neoBlack leading-snug">
+                SRM Institute of Science &amp; Technology
+              </h3>
+              <div class="font-mono text-xs font-bold text-neutral-800">
+                B.Tech — Computer Science &amp; Engineering (AI &amp; ML)
+              </div>
+              <p class="font-mono text-[11px] leading-relaxed text-neutral-700 pt-1 border-t border-dashed border-neoBlack/30">
+                Kattankulathur Campus • Cumulative GPA of 8.21/10 (after Semester 6), specializing in Deep Learning, LLMs, and Intelligent Systems.
+              </p>
+            </div>
+
+            <!-- Card 2: Research Experience -->
+            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_#141414] p-4 space-y-2">
+              <div class="flex items-center justify-between font-mono text-[10px] font-bold">
+                <span class="text-neoBlack uppercase">RESEARCH // JUN–JUL 2025</span>
+                <span class="bg-neoPink border border-neoBlack px-1.5 py-0.5">BIT</span>
+              </div>
+              <h3 class="font-sans font-extrabold text-base text-neoBlack leading-snug">
+                Birla Institute of Technology (BIT)
+              </h3>
+              <div class="font-mono text-xs font-bold text-neutral-800">
+                Research Intern — Sensory Evaluation Using Fuzzy Logic
+              </div>
+              <p class="font-mono text-[11px] leading-relaxed text-neutral-700 pt-1 border-t border-dashed border-neoBlack/30">
+                Explored fuzzy-logic modeling techniques for evaluating multi-dimensional sensory attributes and structured decision-making.
+              </p>
+            </div>
+
+            <!-- Card 3: Hackathon Achievement -->
+            <div class="bg-white border-[3px] border-neoBlack shadow-[4px_4px_0px_#141414] p-4 space-y-2">
+              <div class="flex items-center justify-between font-mono text-[10px] font-bold">
+                <span class="text-neoBlack uppercase">COMPETITIVE HONORS</span>
+                <span class="bg-neoPurple text-white border border-neoBlack px-1.5 py-0.5">TOP 20</span>
+              </div>
+              <h3 class="font-sans font-extrabold text-base text-neoBlack leading-snug">
+                Hacktrax Hackathon — Top 20 Finalist
+              </h3>
+              <p class="font-mono text-[11px] leading-relaxed text-neutral-700 pt-1 border-t border-dashed border-neoBlack/30">
+                Ranked among the Top 20 teams nationally for rapid end-to-end AI system prototyping and real-time software engineering.
+              </p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ===================================================================
+         5. BOTTOM SPLIT SECTION: WORK EXPERIENCE (Left ~68%) + LET'S BUILD CTA (Right ~32%)
+    ==================================================================== -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 border-b-[3px] border-neoBlack">
+      <!-- LEFT COLUMN (~68% -> 8 cols): PINK SIDEBAR STRIP + VERTICAL TIMELINE -->
+      <div id="experience" class="lg:col-span-8 grid grid-cols-1 md:grid-cols-12 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-neoBlack bg-white">
+        <!-- Pink Left Vertical Block: EXPERIENCE -> -->
+        <div class="md:col-span-4 bg-neoPink border-b-[3px] md:border-b-0 md:border-r-[3px] border-neoBlack p-6 flex items-center justify-between md:flex-col md:items-start md:justify-center gap-1.5">
+          <h2 class="font-sans font-extrabold text-lg sm:text-xl tracking-tight uppercase text-neoBlack">
+            EXPERIENCE
+          </h2>
+          <span class="font-mono font-bold text-xl">→</span>
+        </div>
+
+        <!-- Right Timeline Container (Line 1: Company/Institute, Line 2: Role, Line 3: Details) -->
+        <div class="md:col-span-8 p-6 sm:p-8 flex flex-col justify-between">
+          <div class="relative pl-6 border-l-[3px] border-neoBlack space-y-7">
+            <!-- Entry 1: Hyundai Motor India Limited -->
+            <div class="relative">
+              <span class="w-3.5 h-3.5 rounded-full bg-neoBlack border-2 border-neoBlack absolute -left-[32px] top-1"></span>
+              <!-- Line 1: Company Name -->
+              <div class="flex flex-wrap items-baseline justify-between gap-1">
+                <h3 class="font-sans font-extrabold text-base sm:text-lg uppercase text-neoBlack">
+                  HYUNDAI MOTOR INDIA LIMITED
+                </h3>
+                <span class="font-mono text-[11px] font-bold text-neutral-600">NOV 2025 – DEC 2025</span>
+              </div>
+              <!-- Line 2: Role & Location -->
+              <div class="font-mono text-xs font-bold text-neoPurple mt-0.5 mb-2">
+                RAG &amp; Data Annotation Intern • On-site, Chennai
+              </div>
+              <!-- Line 3: Details -->
+              <ul class="list-disc pl-4 font-mono text-xs leading-relaxed text-neutral-700 space-y-1">
+                <li>Developed an enterprise chatbot using a SQL-based RAG workflow with frequency-based confidence thresholding to improve reliability and reduce hallucinations.</li>
+                <li>Annotated vehicle image datasets using CVAT (bounding boxes &amp; polygon segmentation masks) and worked with YOLOv8 computer vision workflows.</li>
+              </ul>
+            </div>
+
+            <!-- Entry 2: Birla Institute of Technology (BIT) -->
+            <div class="relative">
+              <span class="w-3.5 h-3.5 rounded-full bg-neoBlack border-2 border-neoBlack absolute -left-[32px] top-1"></span>
+              <!-- Line 1: Institute Name -->
+              <div class="flex flex-wrap items-baseline justify-between gap-1">
+                <h3 class="font-sans font-extrabold text-base sm:text-lg uppercase text-neoBlack">
+                  BIRLA INSTITUTE OF TECHNOLOGY (BIT)
+                </h3>
+                <span class="font-mono text-[11px] font-bold text-neutral-600">JUN 2025 – JUL 2025</span>
+              </div>
+              <!-- Line 2: Role -->
+              <div class="font-mono text-xs font-bold text-neoPurple mt-0.5 mb-2">
+                Research Intern
+              </div>
+              <!-- Line 3: Details -->
+              <ul class="list-disc pl-4 font-mono text-xs leading-relaxed text-neutral-700 space-y-1">
+                <li>Worked on a research project involving sensory evaluation using fuzzy logic.</li>
+                <li>Explored fuzzy-logic techniques for evaluating sensory attributes and supporting structured decision-making.</li>
+              </ul>
+            </div>
+
+            <!-- Entry 3: Fozzil -->
+            <div class="relative">
+              <span class="w-3.5 h-3.5 rounded-full bg-neoBlack border-2 border-neoBlack absolute -left-[32px] top-1"></span>
+              <!-- Line 1: Company Name -->
+              <div class="flex flex-wrap items-baseline justify-between gap-1">
+                <h3 class="font-sans font-extrabold text-base sm:text-lg uppercase text-neoBlack">
+                  FOZZIL
+                </h3>
+                <span class="font-mono text-[11px] font-bold text-neutral-600">MAR 2025 – JUL 2025</span>
+              </div>
+              <!-- Line 2: Role -->
+              <div class="font-mono text-xs font-bold text-neoPurple mt-0.5 mb-2">
+                Web Designer Intern
+              </div>
+              <!-- Line 3: Details -->
+              <ul class="list-disc pl-4 font-mono text-xs leading-relaxed text-neutral-700 space-y-1">
+                <li>Contributed to web design, responsive user-interface work, and user-facing digital website experiences.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- View Full Resume Button -->
+          <div class="mt-7 pt-2">
+            <button
+              onclick="openResumeModal()"
+              class="neo-btn bg-white hover:bg-neoLime px-4 py-2.5 font-mono text-xs font-bold uppercase inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>VIEW FULL RESUME</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN (~32% -> 4 cols): ELECTRIC PURPLE "LET'S BUILD SOMETHING AMAZING TOGETHER." -->
+      <div class="lg:col-span-4 bg-graph-purple p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden min-h-[290px]">
+        <div class="relative z-10">
+          <h2 class="font-sans font-extrabold text-2xl sm:text-[28px] leading-[1.12] tracking-tight uppercase text-white mb-6">
+            LET'S BUILD<br />
+            SOMETHING<br />
+            AMAZING<br />
+            TOGETHER.
+          </h2>
+
+          <button
+            onclick="openContactModal()"
+            class="neo-btn bg-white hover:bg-neoLime text-neoBlack px-5 py-3 font-mono text-xs font-bold uppercase inline-flex items-center gap-2 cursor-pointer"
+          >
+            <span>GET IN TOUCH</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Decorative Pink Starburst Shape in Bottom-Right matching reference image -->
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 120 120"
+          class="w-24 h-24 sm:w-28 sm:h-28 absolute -bottom-5 -right-5 text-neoPink pointer-events-none"
+        >
+          <polygon
+            fill="currentColor"
+            stroke="#141414"
+            stroke-width="3.5"
+            points="60,4 73,28 100,18 93,46 116,60 93,74 100,102 73,92 60,116 47,92 20,102 27,74 4,60 27,46 20,18 47,28"
+          />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         6. FOOTER
+    ==================================================================== -->
+    <footer class="bg-white flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- Left Lime Brand Badge -->
+      <a
+        href="#top"
+        class="w-full sm:w-auto bg-neoLime border-b-[3px] sm:border-b-0 sm:border-r-[3px] border-neoBlack px-5 py-3.5 font-mono font-bold text-xs sm:text-sm flex items-center justify-center sm:justify-start gap-2 hover:bg-[#ccf54e] transition-colors"
+      >
+        <span>&lt;/&gt;</span>
+        <span>JAIVANTH.DEV</span>
+      </a>
+
+      <!-- Center Copyright -->
+      <p class="font-mono text-[11px] text-neutral-700 text-center px-4">
+        © 2026 Jaivanth Srinivasan. All rights reserved.
+      </p>
+
+      <!-- Right Social Icons -->
+      <div class="flex items-center gap-2 px-4 pb-3.5 sm:py-2.5">
+      <!-- Right Social Icons (GitHub, LinkedIn, Email — X removed) -->
+      <div class="flex items-center gap-2 px-4 pb-3.5 sm:py-2.5">
+        <a
+          href="https://github.com/jaiivanthS"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          title="GitHub"
+          class="w-8 h-8 border-2 border-neoBlack bg-white hover:bg-neoLime flex items-center justify-center shadow-neo-sm cursor-pointer"
+        >
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11.04 11.04 0 0 1 5.76 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.58.23 2.75.11 3.04.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+          </svg>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/jaivanth-srinivasan/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          title="LinkedIn"
+          class="w-8 h-8 border-2 border-neoBlack bg-white hover:bg-neoLime flex items-center justify-center shadow-neo-sm font-sans font-extrabold text-xs cursor-pointer"
+        >
+          in
+        </a>
+        <button
+          onclick="copyEmailToClipboard()"
+          aria-label="Email"
+          title="Copy jaiivanth@gmail.com"
+          class="w-8 h-8 border-2 border-neoBlack bg-white hover:bg-neoLime flex items-center justify-center shadow-neo-sm cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+            <rect x="2" y="4" width="20" height="16" rx="1" />
+            <path d="M22 6l-10 7L2 6" />
+          </svg>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =====================================================================
+       INTERACTIVE MODALS (PROJECT DETAILS, ALL PROJECTS, RESUME, CONTACT)
+  ====================================================================== -->
+
+  <!-- 1. General Info / Project Details / Academic Modal -->
+  <div id="universalModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-neoBlack/60 backdrop-blur-[1px]">
+    <div class="bg-neoCream border-[3px] border-neoBlack shadow-[8px_8px_0px_#141414] w-full max-w-2xl max-h-[88vh] flex flex-col overflow-hidden">
+      <div id="modalHeaderBar" class="bg-neoLime border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between shrink-0">
+        <h3 id="modalHeaderTitle" class="font-mono font-bold text-sm sm:text-base uppercase">DETAILS</h3>
+        <button onclick="closeUniversalModal()" class="neo-btn bg-white w-8 h-8 font-mono font-bold text-xs flex items-center justify-center cursor-pointer">✕</button>
+      </div>
+      <div id="modalBodyContent" class="p-5 sm:p-6 overflow-y-auto space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- 2. Full Printable Resume Modal -->
+  <div id="resumeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-neoBlack/60 backdrop-blur-[1px]">
+    <div id="printableResumeArea" class="bg-white border-[3px] border-neoBlack shadow-[8px_8px_0px_#141414] w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="bg-neoLime border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between shrink-0">
+        <span class="font-mono font-bold text-xs sm:text-sm uppercase">CURRICULUM VITAE // JAIVANTH SRINIVASAN</span>
+        <div class="flex items-center gap-2">
+          <button onclick="window.print()" class="neo-btn bg-neoBlack text-white px-3 py-1 font-mono text-xs font-bold uppercase cursor-pointer">
+            PRINT / SAVE PDF
+          </button>
+          <button onclick="closeResumeModal()" class="neo-btn bg-white w-8 h-8 font-mono font-bold text-xs flex items-center justify-center cursor-pointer">✕</button>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 overflow-y-auto space-y-5 text-xs sm:text-sm">
+        <div class="border-b-2 border-neoBlack pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+          <div>
+            <h2 class="font-sans font-extrabold text-2xl uppercase">Jaivanth Srinivasan</h2>
+            <p class="font-mono font-bold text-neoPurple">AI/ML Engineer &amp; Software Developer</p>
+          </div>
+          <div class="font-mono text-xs text-neutral-700 sm:text-right">
+            <div>Chennai, Tamil Nadu, India</div>
+            <div>jaiivanth@gmail.com</div>
+            <div>github.com/jaiivanthS • linkedin.com/in/jaivanth-srinivasan</div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-mono font-bold text-xs uppercase bg-neoLime inline-block px-2 py-0.5 border border-neoBlack mb-2">Summary</h4>
+          <p class="leading-relaxed text-neutral-800">
+            Computer Science and Engineering student specializing in Artificial Intelligence and Machine Learning at SRM Institute of Science and Technology (CGPA: 8.21/10). Experienced in building enterprise SQL-based RAG systems, computer vision pipelines, Generative AI applications, and research-grade deep learning models.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-mono font-bold text-xs uppercase bg-neoPink inline-block px-2 py-0.5 border border-neoBlack mb-2">Experience</h4>
+          <div class="space-y-3">
+            <div>
+              <div class="font-extrabold uppercase">Hyundai Motor India Limited <span class="font-mono font-normal text-xs text-neutral-600">(Nov 2025 – Dec 2025)</span></div>
+              <div class="font-mono text-xs font-bold text-neoPurple">RAG &amp; Data Annotation Intern • On-site, Chennai</div>
+              <ul class="list-disc pl-5 text-neutral-700 mt-1 space-y-0.5">
+                <li>Developed an enterprise chatbot using a SQL-based RAG workflow with frequency-based confidence thresholding to reduce hallucinations.</li>
+                <li>Annotated vehicle image datasets in CVAT (bounding boxes &amp; polygon segmentation) and worked with YOLOv8 workflows.</li>
+              </ul>
+            </div>
+            <div>
+              <div class="font-extrabold uppercase">Birla Institute of Technology (BIT) <span class="font-mono font-normal text-xs text-neutral-600">(Jun 2025 – Jul 2025)</span></div>
+              <div class="font-mono text-xs font-bold text-neoPurple">Research Intern</div>
+              <ul class="list-disc pl-5 text-neutral-700 mt-1">
+                <li>Conducted research on sensory evaluation using fuzzy logic techniques for structured multi-criteria decision-making.</li>
+              </ul>
+            </div>
+            <div>
+              <div class="font-extrabold uppercase">Fozzil <span class="font-mono font-normal text-xs text-neutral-600">(Mar 2025 – Jul 2025)</span></div>
+              <div class="font-mono text-xs font-bold text-neoPurple">Web Designer Intern</div>
+              <ul class="list-disc pl-5 text-neutral-700 mt-1">
+                <li>Contributed to web design, responsive UI components, and user-facing digital website experiences.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t-2 border-neoBlack">
+          <div>
+            <h4 class="font-mono font-bold text-xs uppercase bg-neoPurple text-white inline-block px-2 py-0.5 border border-neoBlack mb-1.5">Education</h4>
+            <p class="font-bold">B.Tech CSE (AI &amp; ML)</p>
+            <p class="text-neutral-700">SRM Institute of Science and Technology (2023–2027)</p>
+            <p class="font-mono text-xs font-bold mt-0.5">CGPA: 8.21 / 10 (Semester 6)</p>
+          </div>
+          <div>
+            <h4 class="font-mono font-bold text-xs uppercase bg-neoLime inline-block px-2 py-0.5 border border-neoBlack mb-1.5">Honors &amp; Core Stack</h4>
+            <p class="font-bold">Top 20 — Hacktrax Hackathon</p>
+            <p class="font-mono text-xs text-neutral-700 mt-1">Python, PyTorch, LLMs, RAG, Agentic AI, SQL, FastAPI, Docker, OpenCV, YOLOv8</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Contact Me Modal -->
+  <div id="contactModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-neoBlack/60 backdrop-blur-[1px]">
+    <div class="bg-neoCream border-[3px] border-neoBlack shadow-[8px_8px_0px_#141414] w-full max-w-md overflow-hidden">
+      <div class="bg-neoPurple text-white border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between">
+        <h3 class="font-mono font-bold text-sm uppercase">GET IN TOUCH WITH JAIVANTH</h3>
+        <button onclick="closeContactModal()" class="neo-btn bg-white text-neoBlack w-8 h-8 font-mono font-bold text-xs flex items-center justify-center cursor-pointer">✕</button>
+      </div>
+      <div class="px-5 pt-4 pb-1 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+        <span class="font-bold">DIRECT: <a href="mailto:jaiivanth@gmail.com" class="underline text-neoPurple">jaiivanth@gmail.com</a></span>
+        <button type="button" onclick="copyEmailToClipboard()" class="bg-neoLime border border-neoBlack px-2 py-0.5 font-bold text-[10px] cursor-pointer">COPY EMAIL</button>
+      </div>
+      <form onsubmit="submitContactForm(event)" class="p-5 pt-3 space-y-3.5">
+        <div>
+          <label class="block font-mono text-[11px] font-bold uppercase mb-1">YOUR EMAIL</label>
+          <input required type="email" placeholder="jane@company.com" class="w-full bg-white border-2 border-neoBlack shadow-neo-sm px-3 py-2 text-xs font-medium focus:outline-none focus:bg-neoLime/20" />
+        </div>
+        <div>
+          <label class="block font-mono text-[11px] font-bold uppercase mb-1">PROJECT OR OPPORTUNITY</label>
+          <textarea required rows="3" placeholder="Hi Jaivanth, let's collaborate on an AI/ML project..." class="w-full bg-white border-2 border-neoBlack shadow-neo-sm px-3 py-2 text-xs font-medium focus:outline-none focus:bg-neoLime/20"></textarea>
+        </div>
+        <button type="submit" class="w-full neo-btn bg-neoLime hover:bg-[#ccf54e] text-neoBlack py-3 font-mono text-xs font-bold uppercase cursor-pointer">
+          SEND MESSAGE →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Banner -->
+  <div
+    id="toastMessage"
+    class="pointer-events-none opacity-0 translate-y-3 transition-all duration-200 fixed bottom-5 right-5 z-50 bg-neoBlack text-white border-2 border-neoBlack shadow-neo px-4 py-2.5 font-mono text-xs flex items-center gap-2.5"
+  >
+    <span class="bg-neoLime text-neoBlack font-bold px-1.5 py-0.5">INFO</span>
+    <span id="toastText">Copied!</span>
+  </div>
+
+  <!-- =====================================================================
+       JAVASCRIPT LOGIC (PROJECTS CAROUSEL, MODALS, RESPONSIVE PREVIEW)
+  ====================================================================== -->
+  <script>
+    const projectsData = [
+      {
+        num: '01 / 03',
+        title: 'ENTERPRISE AI CHATBOT – SQL-BASED RAG',
+        description:
+          'Developed an enterprise chatbot during an internship at Hyundai Motor India using a SQL-based Retrieval-Augmented Generation workflow. Implemented frequency-based confidence thresholding to improve response reliability and reduce hallucinations when answering questions from enterprise data.',
+        tags: ['Python', 'LLMs', 'RAG', 'SQL', 'NLP'],
+        architecture: [
+          'Natural language to verified SQL query pipeline tailored for structured enterprise tables.',
+          'Frequency-based confidence thresholding layer to filter low-certainty generations and prevent hallucinations.',
+          'Built and validated during on-site AI/ML internship at Hyundai Motor India Limited (Chennai).'
+        ],
+        artwork: `
+          <svg viewBox="0 0 420 220" class="w-full h-full">
+            <rect width="420" height="220" fill="#FAF7F0" />
+            <!-- Bold Neobrutalist SQL Database + RAG Pipeline Graphic -->
+            <rect x="28" y="34" width="120" height="150" fill="#D9F978" stroke="#141414" stroke-width="4" />
+            <rect x="44" y="54" width="88" height="24" fill="#FFFFFF" stroke="#141414" stroke-width="3" />
+            <text x="56" y="70" font-family="Space Mono, monospace" font-weight="700" font-size="12" fill="#141414">SELECT *</text>
+            <rect x="44" y="90" width="88" height="24" fill="#FFFFFF" stroke="#141414" stroke-width="3" />
+            <text x="56" y="106" font-family="Space Mono, monospace" font-weight="700" font-size="12" fill="#141414">FROM RAG</text>
+            <rect x="44" y="126" width="88" height="36" fill="#141414" />
+            <text x="54" y="149" font-family="Space Mono, monospace" font-weight="700" font-size="13" fill="#D9F978">CONF &gt; 0.85</text>
+            <!-- Connecting Arrow -->
+            <path d="M158 110 L205 110" stroke="#141414" stroke-width="5" />
+            <polygon points="203,98 223,110 203,122" fill="#141414" />
+            <!-- Chat Bubble Card -->
+            <rect x="232" y="30" width="160" height="160" fill="#6D5DF6" stroke="#141414" stroke-width="4" />
+            <rect x="248" y="48" width="128" height="44" fill="#FFFFFF" stroke="#141414" stroke-width="3" />
+            <text x="258" y="75" font-family="Space Mono, monospace" font-weight="700" font-size="14" fill="#141414">SQL RAG BOT</text>
+            <rect x="248" y="106" width="128" height="64" fill="#FF70A6" stroke="#141414" stroke-width="3" />
+            <text x="260" y="135" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="18" fill="#141414">ZERO</text>
+            <text x="260" y="156" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="14" fill="#141414">HALLUCINATION</text>
+          </svg>
+        `
+      },
+      {
+        num: '02 / 03',
+        title: 'MEDCAM-NET V3 – AI MICRONUTRIENT DEFICIENCY DETECTION',
+        description:
+          'A research-oriented AI system exploring micronutrient deficiency detection using skin biomarkers. The proposed approach combines a hybrid CNN and Vision Transformer architecture, SimCLR-based pretraining, and ControlNet-conditioned synthetic data generation.',
+        tags: ['Python', 'PyTorch', 'CNN', 'Vision Transformer', 'SimCLR', 'ControlNet'],
+        architecture: [
+          'Hybrid CNN + Vision Transformer (ViT) backbone capturing both fine skin texture and global biomarker context.',
+          'Self-supervised SimCLR contrastive pretraining for label-efficient medical representation learning.',
+          'ControlNet-conditioned Stable Diffusion pipeline to synthesize balanced dermatological training samples.'
+        ],
+        artwork: `
+          <svg viewBox="0 0 420 220" class="w-full h-full">
+            <rect width="420" height="220" fill="#FAF7F0" />
+            <!-- Vision Scan Frame -->
+            <rect x="30" y="28" width="165" height="164" fill="#FF70A6" stroke="#141414" stroke-width="4" />
+            <circle cx="112" cy="110" r="52" fill="#D9F978" stroke="#141414" stroke-width="4" />
+            <circle cx="112" cy="110" r="24" fill="#6D5DF6" stroke="#141414" stroke-width="3" />
+            <line x1="45" y1="110" x2="180" y2="110" stroke="#141414" stroke-width="3" stroke-dasharray="6 4" />
+            <line x1="112" y1="42" x2="112" y2="178" stroke="#141414" stroke-width="3" stroke-dasharray="6 4" />
+            <!-- Model Architecture Block -->
+            <rect x="215" y="28" width="175" height="46" fill="#FFFFFF" stroke="#141414" stroke-width="4" />
+            <text x="230" y="57" font-family="Space Mono, monospace" font-weight="700" font-size="14" fill="#141414">CNN + ViT HYBRID</text>
+            <rect x="215" y="87" width="175" height="46" fill="#D9F978" stroke="#141414" stroke-width="4" />
+            <text x="230" y="116" font-family="Space Mono, monospace" font-weight="700" font-size="14" fill="#141414">SimCLR PRETRAIN</text>
+            <rect x="215" y="146" width="175" height="46" fill="#141414" />
+            <text x="230" y="175" font-family="Space Mono, monospace" font-weight="700" font-size="14" fill="#D9F978">CONTROLNET GEN</text>
+          </svg>
+        `
+      },
+      {
+        num: '03 / 03',
+        title: 'FINANCIAL REPORT ANALYZER – AI-POWERED INSIGHTS',
+        description:
+          'An AI-powered application concept for processing financial reports and extracting useful information. It uses document processing and AI-based question answering to make financial report analysis easier to explore and understand.',
+        tags: ['Python', 'Generative AI', 'RAG', 'LLMs', 'PDF Processing'],
+        architecture: [
+          'Multi-page financial PDF parsing and semantic chunking for balance sheets and earnings disclosures.',
+          'RAG-powered conversational Q&A for extracting key ratios, risk factors, and executive summaries.',
+          'Designed for fast, verifiable insight retrieval over dense financial documents.'
+        ],
+        artwork: `
+          <svg viewBox="0 0 420 220" class="w-full h-full">
+            <rect width="420" height="220" fill="#FAF7F0" />
+            <!-- Document Sheet -->
+            <rect x="34" y="26" width="150" height="168" fill="#FFFFFF" stroke="#141414" stroke-width="4" />
+            <rect x="50" y="44" width="76" height="16" fill="#6D5DF6" stroke="#141414" stroke-width="2.5" />
+            <line x1="50" y1="78" x2="164" y2="78" stroke="#141414" stroke-width="3" />
+            <line x1="50" y1="96" x2="150" y2="96" stroke="#141414" stroke-width="3" />
+            <line x1="50" y1="114" x2="160" y2="114" stroke="#141414" stroke-width="3" />
+            <rect x="50" y="134" width="114" height="42" fill="#D9F978" stroke="#141414" stroke-width="3" />
+            <text x="64" y="160" font-family="Space Mono, monospace" font-weight="700" font-size="14" fill="#141414">Q4 PDF RAG</text>
+            <!-- Chart & Insight Block -->
+            <rect x="206" y="26" width="180" height="168" fill="#D9F978" stroke="#141414" stroke-width="4" />
+            <rect x="226" y="116" width="24" height="58" fill="#141414" />
+            <rect x="262" y="88" width="24" height="86" fill="#6D5DF6" stroke="#141414" stroke-width="3" />
+            <rect x="298" y="64" width="24" height="110" fill="#FF70A6" stroke="#141414" stroke-width="3" />
+            <rect x="334" y="44" width="24" height="130" fill="#FFFFFF" stroke="#141414" stroke-width="3" />
+          </svg>
+        `
+      }
+    ];
+
+    let currentProjectIdx = 0;
+    let toastTimer = null;
+
+    function renderProject(index) {
+      const p = projectsData[index];
+      document.getElementById('projectBadge').textContent = p.num;
+      document.getElementById('projectTitle').textContent = p.title;
+      document.getElementById('projectDesc').textContent = p.description;
+      document.getElementById('projectArtwork').innerHTML = p.artwork;
+
+      const tagsEl = document.getElementById('projectTags');
+      tagsEl.innerHTML = p.tags
+        .map((t) => `<span class="border-2 border-neoBlack bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold">${t}</span>`)
+        .join('');
+
+      const dots = document.getElementById('projectDots').children;
+      Array.from(dots).forEach((dot, idx) => {
+        if (idx === index) {
+          dot.className = 'w-3.5 h-3.5 rounded-full bg-neoBlack border-2 border-neoBlack cursor-pointer';
+        } else {
+          dot.className = 'w-3 h-3 rounded-full bg-white border-2 border-neoBlack cursor-pointer';
+        }
+      });
+    }
+
+    function changeProject(delta) {
+      currentProjectIdx = (currentProjectIdx + delta + projectsData.length) % projectsData.length;
+      renderProject(currentProjectIdx);
+    }
+
+    function setProjectIndex(idx) {
+      currentProjectIdx = idx;
+      renderProject(currentProjectIdx);
+    }
+
+    // Initialize first project artwork on load
+    renderProject(0);
+
+    // Toggle Mobile Navigation Drawer
+    function toggleMobileDrawer() {
+      document.getElementById('mobileDrawer').classList.toggle('hidden');
+    }
+
+    // Toggle Laptop vs Mobile Preview on Desktop screens
+    function setPreviewMode(mode) {
+      const btnDesk = document.getElementById('btnDesktopView');
+      const btnMob = document.getElementById('btnMobileView');
+      if (mode === 'mobile') {
+        document.body.classList.add('mobile-sim-mode');
+        btnMob.className = 'px-2.5 py-1 border-2 border-neoBlack bg-neoBlack text-white font-bold shadow-neo-sm cursor-pointer';
+        btnDesk.className = 'px-2.5 py-1 border-2 border-neoBlack bg-white text-neoBlack hover:bg-neoLime font-bold shadow-neo-sm cursor-pointer';
+        showToast('Switched to Mobile Viewport Preview');
+      } else {
+        document.body.classList.remove('mobile-sim-mode');
+        btnDesk.className = 'px-2.5 py-1 border-2 border-neoBlack bg-neoBlack text-white font-bold shadow-neo-sm cursor-pointer';
+        btnMob.className = 'px-2.5 py-1 border-2 border-neoBlack bg-white text-neoBlack hover:bg-neoLime font-bold shadow-neo-sm cursor-pointer';
+        showToast('Switched to Laptop Full-Width View');
+      }
+    }
+
+    // Swap Hero Portrait with Uploaded Image
+    function previewCustomPhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.getElementById('heroPortraitImg');
+        const svg = document.getElementById('heroPortraitSvg');
+        img.src = e.target.result;
+        img.classList.remove('hidden');
+        svg.classList.add('hidden');
+        showToast('Profile photo updated!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Modals
+    function openProjectDetailModal() {
+      const p = projectsData[currentProjectIdx];
+      document.getElementById('modalHeaderBar').className = 'bg-neoPink border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between shrink-0';
+      document.getElementById('modalHeaderTitle').textContent = p.title;
+      document.getElementById('modalBodyContent').innerHTML = `
+        <div class="border-2 border-neoBlack bg-white p-3">${p.artwork}</div>
+        <p class="font-mono text-xs sm:text-sm leading-relaxed text-neutral-800">${p.description}</p>
+        <div class="bg-white border-2 border-neoBlack p-4 space-y-2">
+          <div class="font-mono text-xs font-bold uppercase text-neoPurple">SYSTEM HIGHLIGHTS &amp; ARCHITECTURE</div>
+          <ul class="list-disc pl-5 font-mono text-xs space-y-1.5 text-neutral-800">
+            ${p.architecture.map((item) => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          ${p.tags.map((t) => `<span class="bg-neoLime border-2 border-neoBlack px-2.5 py-1 font-mono text-xs font-bold">${t}</span>`).join('')}
+        </div>
+      `;
+      document.getElementById('universalModal').classList.remove('hidden');
+    }
+
+    function openAllProjectsModal() {
+      document.getElementById('modalHeaderBar').className = 'bg-neoLime border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between shrink-0';
+      document.getElementById('modalHeaderTitle').textContent = 'ALL FEATURED PROJECTS (03)';
+      document.getElementById('modalBodyContent').innerHTML = projectsData
+        .map(
+          (p) => `
+          <div class="bg-white border-2 border-neoBlack shadow-neo-sm p-4 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <h4 class="font-sans font-extrabold text-sm sm:text-base uppercase">${p.title}</h4>
+              <span class="bg-neoPink border border-neoBlack px-2 py-0.5 font-mono text-[10px] font-bold shrink-0">${p.num}</span>
+            </div>
+            <p class="font-mono text-xs text-neutral-700 leading-relaxed">${p.description}</p>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              ${p.tags.map((t) => `<span class="bg-neoCream border border-neoBlack px-2 py-0.5 font-mono text-[10px] font-bold">${t}</span>`).join('')}
+            </div>
+          </div>
+        `
+        )
+        .join('');
+      document.getElementById('universalModal').classList.remove('hidden');
+    }
+
+    function openAcademicModal() {
+      document.getElementById('modalHeaderBar').className = 'bg-neoLime border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between shrink-0';
+      document.getElementById('modalHeaderTitle').textContent = 'EDUCATION, RESEARCH & ACHIEVEMENTS';
+      document.getElementById('modalBodyContent').innerHTML = `
+        <div class="bg-white border-2 border-neoBlack shadow-neo-sm p-4 space-y-1">
+          <div class="font-mono text-xs font-bold text-neoPurple">B.TECH DEGREE (2023 – 2027)</div>
+          <h4 class="font-sans font-extrabold text-base">Computer Science &amp; Engineering (AI &amp; ML)</h4>
+          <p class="font-mono text-xs text-neutral-700">SRM Institute of Science and Technology, Kattankulathur</p>
+          <p class="font-mono text-xs font-bold bg-neoLime inline-block px-2 py-0.5 border border-neoBlack mt-1">CGPA: 8.21 / 10 (After Semester 6)</p>
+        </div>
+        <div class="bg-white border-2 border-neoBlack shadow-neo-sm p-4 space-y-1">
+          <div class="font-mono text-xs font-bold text-neoPink">RESEARCH EXPERIENCE (JUN 2025 – JUL 2025)</div>
+          <h4 class="font-sans font-extrabold text-base">Research Intern — Sensory Evaluation Using Fuzzy Logic</h4>
+          <p class="font-mono text-xs text-neutral-700">Birla Institute of Technology (BIT)</p>
+        </div>
+        <div class="bg-white border-2 border-neoBlack shadow-neo-sm p-4 space-y-1">
+          <div class="font-mono text-xs font-bold text-neoBlack">COMPETITIVE ACHIEVEMENT</div>
+          <h4 class="font-sans font-extrabold text-base">Top 20 Finalist — Hacktrax Hackathon</h4>
+          <p class="font-mono text-xs text-neutral-700">Selected among top 20 teams for building an end-to-end intelligent software solution under sprint constraints.</p>
+        </div>
+      `;
+      document.getElementById('universalModal').classList.remove('hidden');
+    }
+
+    function closeUniversalModal() {
+      document.getElementById('universalModal').classList.add('hidden');
+    }
+
+    function openResumeModal() {
+      document.getElementById('resumeModal').classList.remove('hidden');
+    }
+
+    function closeResumeModal() {
+      document.getElementById('resumeModal').classList.add('hidden');
+    }
+
+    function openContactModal() {
+      document.getElementById('contactModal').classList.remove('hidden');
+    }
+
+    function closeContactModal() {
+      document.getElementById('contactModal').classList.add('hidden');
+    }
+
+    function submitContactForm(e) {
+      e.preventDefault();
+      closeContactModal();
+      showToast('Message sent to jaiivanth@gmail.com!');
+      e.target.reset();
+    }
+
+    function copyEmailToClipboard() {
+      const email = 'jaiivanth@gmail.com';
+      const tempInput = document.createElement('input');
+      tempInput.value = email;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast(`Copied email: ${email}`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastMessage');
+      document.getElementById('toastText').textContent = msg;
+      toast.classList.remove('opacity-0', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-3');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2800);
+    }
+  </script>
+</body>
+</html>
