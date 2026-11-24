@@ -100,12 +100,6 @@
       scrollbar-width: none;
     }
 
-    /* Mobile Preview Mode when toggled on Desktop */
-    body.mobile-sim-mode #portfolioRoot {
-      max-width: 410px !important;
-      margin-left: auto;
-      margin-right: auto;
-    }
 
     @media print {
       body * {
@@ -127,31 +121,6 @@
   </style>
 </head>
 <body class="min-h-screen py-3 px-2.5 sm:py-6 sm:px-5 lg:py-8 lg:px-8 selection:bg-neoLime selection:text-neoBlack">
-
-  <!-- Optional Top Utility Bar for Quick Laptop / Mobile Preview Switching on Desktop -->
-  <div class="hidden lg:flex max-w-[1160px] mx-auto mb-3 items-center justify-between text-xs font-mono">
-    <div class="flex items-center gap-2 bg-white border-2 border-neoBlack shadow-neo-sm px-3 py-1">
-      <span class="w-2.5 h-2.5 bg-neoLime border border-neoBlack inline-block"></span>
-      <span class="font-bold">JAIVANTH.DEV // PORTFOLIO v2.0</span>
-    </div>
-    <div class="flex items-center gap-2">
-      <span class="text-neutral-700 font-bold">VIEWPORT PREVIEW:</span>
-      <button
-        id="btnDesktopView"
-        onclick="setPreviewMode('desktop')"
-        class="px-2.5 py-1 border-2 border-neoBlack bg-neoBlack text-white font-bold shadow-neo-sm cursor-pointer"
-      >
-        LAPTOP
-      </button>
-      <button
-        id="btnMobileView"
-        onclick="setPreviewMode('mobile')"
-        class="px-2.5 py-1 border-2 border-neoBlack bg-white text-neoBlack hover:bg-neoLime font-bold shadow-neo-sm cursor-pointer"
-      >
-        MOBILE
-      </button>
-    </div>
-  </div>
 
   <!-- =====================================================================
        MAIN NEOBRUTALIST PORTFOLIO FRAME
@@ -250,13 +219,14 @@
               <span>↗</span>
             </a>
 
-            <button
-              onclick="openResumeModal()"
+            <a
+              href="Jaivanth_Srinivasan_Resume.pdf"
+              download="Jaivanth_Srinivasan_Resume.pdf"
               class="neo-btn bg-white hover:bg-neoCream text-neoBlack px-5 py-3 font-mono text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 cursor-pointer"
             >
               <span>DOWNLOAD RESUME</span>
               <span>↓</span>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -317,55 +287,13 @@
 
           <!-- Framed Portrait Card -->
           <div class="w-[78%] sm:w-[275px] h-[250px] sm:h-[290px] mx-auto -mt-[250px] sm:-mt-[290px] bg-[#1C1B29] border-[3px] border-neoBlack relative overflow-hidden group">
-            <!-- Custom Stylized AI/ML Engineer Portrait SVG (Swap easily with your headshot) -->
             <img
               id="heroPortraitImg"
-              src=""
+              src="profile.jpg"
               alt="Jaivanth Srinivasan"
-              class="hidden w-full h-full object-cover"
+              width="400" height="400"
+              class="w-full h-full object-cover object-top"
             />
-            <svg id="heroPortraitSvg" viewBox="0 0 280 300" class="w-full h-full" role="img" aria-label="Jaivanth Srinivasan AI/ML Engineer Portrait">
-              <defs>
-                <linearGradient id="sunsetBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#2E294E" />
-                  <stop offset="55%" stop-color="#6D5DF6" />
-                  <stop offset="100%" stop-color="#FF9F1C" />
-                </linearGradient>
-              </defs>
-              <rect width="280" height="300" fill="url(#sunsetBg)" />
-              <!-- Subtle neural network nodes in background -->
-              <g stroke="#D9F978" stroke-width="1.2" opacity="0.35">
-                <line x1="35" y1="45" x2="90" y2="75" />
-                <line x1="90" y1="75" x2="230" y2="50" />
-                <line x1="230" y1="50" x2="245" y2="120" />
-                <line x1="35" y1="45" x2="50" y2="135" />
-                <circle cx="35" cy="45" r="3" fill="#D9F978" />
-                <circle cx="90" cy="75" r="3" fill="#D9F978" />
-                <circle cx="230" cy="50" r="3" fill="#D9F978" />
-              </g>
-              <!-- Stylized Developer Silhouette & Laptop -->
-              <path d="M55 300 C60 225, 95 205, 140 205 C185 205, 220 225, 225 300 Z" fill="#141414" />
-              <rect x="126" y="172" width="28" height="38" rx="8" fill="#D49A72" stroke="#141414" stroke-width="2.5" />
-              <circle cx="140" cy="136" r="40" fill="#E0A980" stroke="#141414" stroke-width="2.5" />
-              <!-- Hair -->
-              <path d="M98 134 C96 92, 184 92, 182 134 C178 112, 155 106, 140 108 C120 110, 104 116, 98 134 Z" fill="#141414" />
-              <!-- Glasses -->
-              <rect x="112" y="128" width="22" height="14" rx="2" fill="none" stroke="#141414" stroke-width="2.5" />
-              <rect x="146" y="128" width="22" height="14" rx="2" fill="none" stroke="#141414" stroke-width="2.5" />
-              <line x1="134" y1="134" x2="146" y2="134" stroke="#141414" stroke-width="2.5" />
-              <!-- Smile -->
-              <path d="M130 154 Q140 162 150 154" fill="none" stroke="#141414" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-
-            <!-- Photo Upload Trigger Overlay -->
-            <label
-              for="photoUploadInput"
-              title="Upload your headshot photo"
-              class="absolute top-2.5 right-2.5 bg-neoLime hover:bg-white border-2 border-neoBlack shadow-neo-sm px-2 py-1 font-mono text-[10px] font-bold cursor-pointer opacity-90 hover:opacity-100 transition-opacity"
-            >
-              📷 SWAP PHOTO
-            </label>
-            <input id="photoUploadInput" type="file" accept="image/*" class="hidden" onchange="previewCustomPhoto(event)" />
           </div>
 
           <!-- Overlapping Floating Purple Code Snippet Card matching reference -->
@@ -913,9 +841,9 @@
       <div class="bg-neoLime border-b-[3px] border-neoBlack px-5 py-3.5 flex items-center justify-between shrink-0">
         <span class="font-mono font-bold text-xs sm:text-sm uppercase">CURRICULUM VITAE // JAIVANTH SRINIVASAN</span>
         <div class="flex items-center gap-2">
-          <button onclick="window.print()" class="neo-btn bg-neoBlack text-white px-3 py-1 font-mono text-xs font-bold uppercase cursor-pointer">
-            PRINT / SAVE PDF
-          </button>
+          <a href="Jaivanth_Srinivasan_Resume.pdf" download="Jaivanth_Srinivasan_Resume.pdf" class="neo-btn bg-neoBlack text-white px-3 py-1 font-mono text-xs font-bold uppercase cursor-pointer">
+            DOWNLOAD PDF ↓
+          </a>
           <button onclick="closeResumeModal()" class="neo-btn bg-white w-8 h-8 font-mono font-bold text-xs flex items-center justify-center cursor-pointer">✕</button>
         </div>
       </div>
@@ -1165,39 +1093,6 @@
     // Toggle Mobile Navigation Drawer
     function toggleMobileDrawer() {
       document.getElementById('mobileDrawer').classList.toggle('hidden');
-    }
-
-    // Toggle Laptop vs Mobile Preview on Desktop screens
-    function setPreviewMode(mode) {
-      const btnDesk = document.getElementById('btnDesktopView');
-      const btnMob = document.getElementById('btnMobileView');
-      if (mode === 'mobile') {
-        document.body.classList.add('mobile-sim-mode');
-        btnMob.className = 'px-2.5 py-1 border-2 border-neoBlack bg-neoBlack text-white font-bold shadow-neo-sm cursor-pointer';
-        btnDesk.className = 'px-2.5 py-1 border-2 border-neoBlack bg-white text-neoBlack hover:bg-neoLime font-bold shadow-neo-sm cursor-pointer';
-        showToast('Switched to Mobile Viewport Preview');
-      } else {
-        document.body.classList.remove('mobile-sim-mode');
-        btnDesk.className = 'px-2.5 py-1 border-2 border-neoBlack bg-neoBlack text-white font-bold shadow-neo-sm cursor-pointer';
-        btnMob.className = 'px-2.5 py-1 border-2 border-neoBlack bg-white text-neoBlack hover:bg-neoLime font-bold shadow-neo-sm cursor-pointer';
-        showToast('Switched to Laptop Full-Width View');
-      }
-    }
-
-    // Swap Hero Portrait with Uploaded Image
-    function previewCustomPhoto(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const img = document.getElementById('heroPortraitImg');
-        const svg = document.getElementById('heroPortraitSvg');
-        img.src = e.target.result;
-        img.classList.remove('hidden');
-        svg.classList.add('hidden');
-        showToast('Profile photo updated!');
-      };
-      reader.readAsDataURL(file);
     }
 
     // Modals
